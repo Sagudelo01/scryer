@@ -1,5 +1,7 @@
 # Scryer
 
+[![CI](https://github.com/Sagudelo01/scryer/actions/workflows/ci.yml/badge.svg)](https://github.com/Sagudelo01/scryer/actions/workflows/ci.yml)
+
 Scryer is a Fearless Draft simulator and live scouting tool for the amateur
 competitive League of Legends scene. It gives community tournaments, scrim
 teams and aspiring coaches a pro-style draft room where a full best-of series
@@ -30,6 +32,8 @@ Champion-Mastery APIs), report exports for coaches and private tournament rooms.
 
 - [Next.js](https://nextjs.org) (App Router) and TypeScript
 - [Tailwind CSS](https://tailwindcss.com)
+- [Zod](https://zod.dev) for validating external data and draft state
+- [Vitest](https://vitest.dev) for unit tests
 - Riot [Data Dragon](https://developer.riotgames.com/docs/lol#data-dragon) for
   champion data and images
 - Deployed on [Vercel](https://vercel.com)
@@ -55,10 +59,19 @@ room lives at [http://localhost:3000/draft](http://localhost:3000/draft).
 Other scripts:
 
 ```bash
-npm run build   # production build
-npm run start   # run the production build
-npm run lint    # lint the project
+npm run build       # production build
+npm run start       # run the production build
+npm run lint        # lint the project
+npm run typecheck   # type-check without emitting
+npm test            # run the unit tests
 ```
+
+## Quality
+
+The draft logic lives in a pure, framework-agnostic engine
+(`src/lib/draft-engine.ts`) covered by Vitest. External Data Dragon responses
+and the draft state are validated with Zod. Every push and pull request runs
+lint, type-check, tests and a production build through GitHub Actions.
 
 ## Legal
 
