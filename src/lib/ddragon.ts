@@ -1,16 +1,9 @@
 import type { Champion, ChampionData } from "./types";
+import { championResponseSchema, versionsSchema } from "./schemas";
 
 const DDRAGON = "https://ddragon.leagueoflegends.com";
 const LOCALE = "en_US";
 const ONE_DAY = 60 * 60 * 24;
-
-interface RawChampion {
-  id: string;
-  key: string;
-  name: string;
-  title: string;
-  tags: string[];
-}
 
 async function getLatestVersion(): Promise<string> {
   const res = await fetch(`${DDRAGON}/api/versions.json`, {
@@ -19,7 +12,7 @@ async function getLatestVersion(): Promise<string> {
   if (!res.ok) {
     throw new Error(`Failed to load Data Dragon versions (${res.status})`);
   }
-  const versions: string[] = await res.json();
+  const versions = versionsSchema.parse(await res.json());
   return versions[0];
 }
 
@@ -31,7 +24,7 @@ export async function getChampionData(): Promise<ChampionData> {
   if (!res.ok) {
     throw new Error(`Failed to load champion list (${res.status})`);
   }
-  const payload: { data: Record<string, RawChampion> } = await res.json();
+  const payload = championResponseSchema.parse(await res.json());
   const champions: Champion[] = Object.values(payload.data)
     .map((c) => ({
       id: c.id,
