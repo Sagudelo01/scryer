@@ -26,3 +26,12 @@ export interface GameResult {
   bluePicks: string[];
   redPicks: string[];
 }
+
+export interface DraftState {
+  /** Champion id assigned to each step of the current game, or null if empty. */
+  assignments: (string | null)[];
+  /** Index of the next step to fill (equals sequence length when complete). */
+  cursor: number;
+  /** Picks from previous games of the series, locked by the Fearless rule. */
+  history: GameResult[];
+}
