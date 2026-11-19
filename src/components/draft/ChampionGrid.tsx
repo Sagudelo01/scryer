@@ -4,7 +4,9 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { championIconUrl } from "@/lib/ddragon";
 import { CHAMPION_ROLES } from "@/lib/draft-sequence";
+import { championName, roleLabel } from "@/lib/i18n";
 import type { Champion } from "@/lib/types";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 interface ChampionGridProps {
   champions: Champion[];
@@ -23,17 +25,20 @@ export function ChampionGrid({
   disabled,
   onSelect,
 }: ChampionGridProps) {
+  const { locale, t } = useLanguage();
   const [query, setQuery] = useState("");
   const [role, setRole] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return champions.filter((c) => {
-      const matchesQuery = q === "" || c.name.toLowerCase().includes(q);
-      const matchesRole = role === null || c.tags.includes(role);
-      return matchesQuery && matchesRole;
-    });
-  }, [champions, query, role]);
+    return champions
+      .filter((c) => {
+        const matchesQuery = q === "" || championName(c, locale).toLowerCase().includes(q);
+        const matchesRole = role === null || c.tags.includes(role);
+        return matchesQuery && matchesRole;
+      })
+      .sort((a, b) => championName(a, locale).localeCompare(championName(b, locale), locale));
+  }, [champions, query, role, locale]);
 
   return (
     <div className="flex h-full flex-col gap-3">
@@ -53,22 +58,28 @@ export function ChampionGrid({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search champion"
-            aria-label="Search champion"
+            placeholder={t("searchChampion")}
+            aria-label={t("searchChampion")}
             className="border-line bg-void/70 text-ink placeholder:text-ink-faint focus:border-cyan/60 w-full rounded-md border py-2.5 pr-3 pl-9 text-sm transition-colors outline-none"
           />
         </div>
 
         <div className="flex flex-wrap gap-1.5">
-          <RoleChip active={role === null} onClick={() => setRole(null)} label="All" />
+          <RoleChip active={role === null} onClick={() => setRole(null)} label={t("roleAll")} />
           {CHAMPION_ROLES.map((r) => (
-            <RoleChip key={r} active={role === r} onClick={() => setRole(r)} label={r} />
+            <RoleChip
+              key={r}
+              active={role === r}
+              onClick={() => setRole(r)}
+              label={roleLabel(locale, r)}
+            />
           ))}
         </div>
       </div>
 
-      <div className="thin-scroll -mr-1 grid max-h-[min(58vh,560px)] grid-cols-4 gap-2 overflow-y-auto pr-1 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-9">
+      <div className="thin-scroll -mr-1 grid max-h-[min(60vh,620px)] grid-cols-3 gap-3 overflow-y-auto pr-1 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6">
         {filtered.map((champion) => {
+          const name = championName(champion, locale);
           const unavailable = isUnavailable(champion.id);
           const fearless = isFearlessLocked(champion.id);
           return (
@@ -77,41 +88,54 @@ export function ChampionGrid({
               type="button"
               disabled={unavailable || disabled}
               onClick={() => onSelect(champion.id)}
-              title={fearless ? `${champion.name} — used earlier in the series` : champion.name}
-              className={`group relative aspect-square overflow-hidden rounded-md border transition-all duration-150 ${
+              title={fearless ? `${name} — ${t("usedEarlier")}` : name}
+              className={`group flex flex-col items-center gap-1.5 rounded-lg p-1.5 transition-colors ${
                 unavailable
-                  ? "border-line/60 cursor-not-allowed"
-                  : "border-line hover:border-gold cursor-pointer hover:z-10 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_-6px_rgba(200,170,110,0.6)]"
+                  ? "cursor-not-allowed"
+                  : "hover:bg-surface-2/60 cursor-pointer disabled:cursor-not-allowed"
               } ${disabled && !unavailable ? "cursor-not-allowed opacity-60" : ""}`}
             >
-              <Image
-                src={championIconUrl(version, champion.id)}
-                alt={champion.name}
-                width={64}
-                height={64}
-                unoptimized
-                className={`h-full w-full object-cover transition-all duration-200 ${
-                  unavailable ? "grayscale" : "group-hover:scale-110"
+              <span
+                className={`relative aspect-square w-full overflow-hidden rounded-md border transition-all duration-150 ${
+                  unavailable
+                    ? "border-line/60"
+                    : "border-line group-hover:border-gold group-hover:-translate-y-0.5 group-hover:shadow-[0_8px_22px_-8px_rgba(200,170,110,0.65)]"
                 }`}
-              />
-              {unavailable && <div className="bg-abyss/70 absolute inset-0" />}
-              {fearless && (
-                <span className="text-gold absolute top-1 right-1" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
-                    <path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5Zm3 8H9V6a3 3 0 0 1 6 0v3Z" />
-                  </svg>
-                </span>
-              )}
-              <span className="from-abyss/95 text-ink-dim absolute inset-x-0 bottom-0 truncate bg-gradient-to-t to-transparent px-1 pt-3 pb-0.5 text-center text-[10px] leading-tight">
-                {champion.name}
+              >
+                <Image
+                  src={championIconUrl(version, champion.id)}
+                  alt={name}
+                  width={120}
+                  height={120}
+                  unoptimized
+                  className={`h-full w-full object-cover transition-transform duration-200 ${
+                    unavailable ? "grayscale" : "group-hover:scale-105"
+                  }`}
+                />
+                {unavailable && <span className="bg-abyss/65 absolute inset-0" />}
+                {fearless && (
+                  <span
+                    className="bg-abyss/80 text-gold absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded"
+                    aria-hidden="true"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor">
+                      <path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5Zm3 8H9V6a3 3 0 0 1 6 0v3Z" />
+                    </svg>
+                  </span>
+                )}
+              </span>
+              <span
+                className={`w-full truncate text-center text-xs leading-tight ${
+                  unavailable ? "text-ink-faint" : "text-ink-dim group-hover:text-ink"
+                }`}
+              >
+                {name}
               </span>
             </button>
           );
         })}
         {filtered.length === 0 && (
-          <p className="text-ink-faint col-span-full py-10 text-center text-sm">
-            No champions match your search.
-          </p>
+          <p className="text-ink-faint col-span-full py-10 text-center text-sm">{t("noMatches")}</p>
         )}
       </div>
     </div>
