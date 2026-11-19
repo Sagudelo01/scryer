@@ -77,7 +77,7 @@ export function ChampionGrid({
         </div>
       </div>
 
-      <div className="thin-scroll -mr-1 grid max-h-[min(60vh,620px)] grid-cols-3 gap-3 overflow-y-auto pr-1 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6">
+      <div className="thin-scroll -mr-1 grid h-[min(60vh,620px)] auto-rows-min grid-cols-3 gap-3 overflow-y-auto pr-1 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6">
         {filtered.map((champion) => {
           const name = championName(champion, locale);
           const unavailable = isUnavailable(champion.id);

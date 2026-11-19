@@ -76,6 +76,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Reserve the scrollbar gutter so the layout width never shifts when the
+     vertical scrollbar appears or disappears. */
+  scrollbar-gutter: stable;
+  overflow-y: scroll;
 }
 
 body {
