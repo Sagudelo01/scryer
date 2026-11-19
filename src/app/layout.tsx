@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Chakra_Petch, Inter } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/components/i18n/LanguageProvider";
+import { VisibilityPauser } from "@/components/ui/VisibilityPauser";
 
 const display = Chakra_Petch({
   variable: "--font-display",
@@ -43,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${display.variable} ${sans.variable} antialiased`}>
+        <VisibilityPauser />
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

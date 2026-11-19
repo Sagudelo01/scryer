@@ -24,6 +24,10 @@
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
 
+  /* Consistent, smooth defaults for every transition utility. */
+  --default-transition-duration: 200ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+
   --animate-glow: glow 2.4s ease-in-out infinite;
   --animate-rise: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-pop: pop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -88,11 +92,40 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  background-image: linear-gradient(180deg, var(--color-abyss) 0%, #060910 100%);
+  background-attachment: fixed;
+}
+
+/* Ambient glow layer: same colors and shapes as before, drifting very slowly.
+   Kept separate so the base gradient stays fixed and OBS can hide it. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -8%;
+  z-index: -1;
+  pointer-events: none;
   background-image:
     radial-gradient(900px circle at 15% -10%, rgba(10, 200, 185, 0.1), transparent 45%),
-    radial-gradient(900px circle at 85% 0%, rgba(74, 140, 255, 0.08), transparent 45%),
-    linear-gradient(180deg, var(--color-abyss) 0%, #060910 100%);
-  background-attachment: fixed;
+    radial-gradient(900px circle at 85% 0%, rgba(74, 140, 255, 0.08), transparent 45%);
+  animation: bg-drift 46s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes bg-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(1.4%, 1%, 0);
+  }
+}
+
+/* Pause the drift when the tab is hidden, and hide the glow on plain overlays. */
+html[data-tab-hidden] body::before {
+  animation-play-state: paused;
+}
+html[data-bg-plain] body::before {
+  display: none;
 }
 
 h1,

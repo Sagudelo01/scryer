@@ -16,12 +16,15 @@ export function StreamView({ code, data, bg }: { code: string; data: ChampionDat
 
   useEffect(() => {
     const body = document.body;
+    const root = document.documentElement;
     const prev = { color: body.style.backgroundColor, image: body.style.backgroundImage };
     body.style.backgroundColor = background || "";
     body.style.backgroundImage = background ? "none" : "";
+    if (background) root.setAttribute("data-bg-plain", "");
     return () => {
       body.style.backgroundColor = prev.color;
       body.style.backgroundImage = prev.image;
+      root.removeAttribute("data-bg-plain");
     };
   }, [background]);
 
