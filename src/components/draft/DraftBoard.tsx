@@ -5,20 +5,25 @@ import Link from "next/link";
 import { useDraft } from "@/hooks/useDraft";
 import type { ChampionData } from "@/lib/types";
 import { Logo } from "@/components/brand/Logo";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+import { LanguageToggle } from "@/components/i18n/LanguageToggle";
 import { ChampionGrid } from "./ChampionGrid";
 import { TeamColumn } from "./TeamColumn";
 import { SeriesBar } from "./SeriesBar";
 
 export function DraftBoard({ data }: { data: ChampionData }) {
   const { version, champions } = data;
+  const { t } = useLanguage();
   const draft = useDraft();
 
   const championsById = useMemo(() => new Map(champions.map((c) => [c.id, c])), [champions]);
 
   const current = draft.currentStep;
   const turnLabel = current
-    ? `${current.team === "blue" ? "Blue" : "Red"} ${current.type === "ban" ? "Ban" : "Pick"}`
-    : "Draft complete";
+    ? `${current.team === "blue" ? t("blueShort") : t("redShort")} ${
+        current.type === "ban" ? t("ban") : t("pick")
+      }`
+    : "";
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-6 sm:px-6">
@@ -27,11 +32,12 @@ export function DraftBoard({ data }: { data: ChampionData }) {
           <Logo />
         </Link>
         <div className="flex items-center gap-2">
+          <LanguageToggle />
           <span className="border-gold/40 bg-gold/10 font-display text-gold rounded-full border px-3 py-1 text-sm font-semibold tracking-wide">
-            Game {draft.gameNumber}
+            {t("game")} {draft.gameNumber}
           </span>
           <span className="border-cyan/40 bg-cyan/10 text-cyan rounded-full border px-3 py-1 text-xs font-medium tracking-wide uppercase">
-            Fearless
+            {t("fearless")}
           </span>
         </div>
       </header>
@@ -63,10 +69,10 @@ export function DraftBoard({ data }: { data: ChampionData }) {
           )}
           <p className="font-display text-base font-semibold tracking-wide">
             {draft.isComplete ? (
-              <span className="text-gold-bright">Draft complete — confirm to lock this game</span>
+              <span className="text-gold-bright">{t("draftComplete")}</span>
             ) : (
               <>
-                On the clock:{" "}
+                {t("onTheClock")}{" "}
                 <span className={current?.team === "blue" ? "text-blue-side" : "text-red-side"}>
                   {turnLabel}
                 </span>
@@ -81,14 +87,14 @@ export function DraftBoard({ data }: { data: ChampionData }) {
             disabled={draft.cursor === 0}
             className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded border px-3 py-1.5 text-xs font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Undo
+            {t("undo")}
           </button>
           <button
             type="button"
             onClick={draft.resetGame}
             className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded border px-3 py-1.5 text-xs font-medium transition-colors"
           >
-            Reset game
+            {t("resetGame")}
           </button>
           {draft.isComplete && (
             <button
@@ -96,7 +102,7 @@ export function DraftBoard({ data }: { data: ChampionData }) {
               onClick={draft.confirmGame}
               className="animate-pop border-gold bg-gold/20 text-gold-bright hover:bg-gold/30 rounded border px-4 py-1.5 text-xs font-bold tracking-wide transition-colors"
             >
-              Confirm game →
+              {t("confirmGame")} →
             </button>
           )}
         </div>
@@ -135,15 +141,14 @@ export function DraftBoard({ data }: { data: ChampionData }) {
 
       <footer className="border-line text-ink-faint flex flex-wrap items-center justify-between gap-3 border-t pt-4 text-xs">
         <p>
-          Patch {version} · Champion data from Riot Data Dragon. Scryer is not endorsed by Riot
-          Games.
+          {t("patch")} {version} · {t("footerData")}
         </p>
         <button
           type="button"
           onClick={draft.resetSeries}
           className="border-line text-ink-dim hover:border-red-side/60 hover:text-red-side rounded border px-3 py-1.5 font-medium transition-colors"
         >
-          Reset series
+          {t("resetSeries")}
         </button>
       </footer>
     </div>

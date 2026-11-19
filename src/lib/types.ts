@@ -1,3 +1,5 @@
+import type { Locale } from "./i18n";
+
 export type Team = "blue" | "red";
 
 export type ActionType = "ban" | "pick";
@@ -5,9 +7,9 @@ export type ActionType = "ban" | "pick";
 export interface Champion {
   id: string;
   key: string;
-  name: string;
-  title: string;
   tags: string[];
+  /** Display name per supported locale. */
+  names: Record<Locale, string>;
 }
 
 export interface ChampionData {

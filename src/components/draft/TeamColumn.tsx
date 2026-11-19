@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { championIconUrl } from "@/lib/ddragon";
 import { BANS_PER_TEAM, PICKS_PER_TEAM } from "@/lib/draft-sequence";
+import { championName, roleLabel } from "@/lib/i18n";
 import type { Champion, Team } from "@/lib/types";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 interface TeamColumnProps {
   team: Team;
@@ -22,6 +24,7 @@ export function TeamColumn({
   isActiveSlot,
   align,
 }: TeamColumnProps) {
+  const { locale, t } = useLanguage();
   const isBlue = team === "blue";
   const accent = isBlue ? "text-blue-side" : "text-red-side";
   const border = isBlue ? "border-blue-side/50" : "border-red-side/50";
@@ -36,7 +39,7 @@ export function TeamColumn({
       >
         <span className={`h-2.5 w-2.5 rotate-45 ${isBlue ? "bg-blue-side" : "bg-red-side"}`} />
         <h2 className={`font-display text-lg font-bold tracking-wide ${accent}`}>
-          {isBlue ? "Blue Side" : "Red Side"}
+          {isBlue ? t("blueSide") : t("redSide")}
         </h2>
       </div>
 
@@ -44,6 +47,7 @@ export function TeamColumn({
         {Array.from({ length: BANS_PER_TEAM }).map((_, slot) => {
           const id = getAssignment(team, "ban", slot);
           const champion = id ? championsById.get(id) : null;
+          const name = champion ? championName(champion, locale) : "";
           const active = isActiveSlot(team, "ban", slot);
           return (
             <div
@@ -51,13 +55,13 @@ export function TeamColumn({
               className={`bg-void/60 relative aspect-square w-full overflow-hidden rounded border ${
                 active ? `animate-glow ${activeRing}` : "border-line"
               }`}
-              title={champion ? `Ban: ${champion.name}` : "Ban"}
+              title={champion ? `${t("ban")}: ${name}` : t("ban")}
             >
               {champion ? (
                 <>
                   <Image
                     src={championIconUrl(version, champion.id)}
-                    alt={champion.name}
+                    alt={name}
                     width={48}
                     height={48}
                     unoptimized
@@ -90,6 +94,7 @@ export function TeamColumn({
         {Array.from({ length: PICKS_PER_TEAM }).map((_, slot) => {
           const id = getAssignment(team, "pick", slot);
           const champion = id ? championsById.get(id) : null;
+          const name = champion ? championName(champion, locale) : "";
           const active = isActiveSlot(team, "pick", slot);
           return (
             <div
@@ -109,7 +114,7 @@ export function TeamColumn({
                   <div className="relative h-full w-16 shrink-0">
                     <Image
                       src={championIconUrl(version, champion.id)}
-                      alt={champion.name}
+                      alt={name}
                       fill
                       unoptimized
                       sizes="64px"
@@ -117,10 +122,10 @@ export function TeamColumn({
                     />
                   </div>
                   <div className={`min-w-0 flex-1 px-1 ${align === "right" ? "text-right" : ""}`}>
-                    <p className="font-display text-ink truncate text-sm font-semibold">
-                      {champion.name}
+                    <p className="font-display text-ink truncate text-sm font-semibold">{name}</p>
+                    <p className="text-ink-faint truncate text-[11px]">
+                      {champion.tags[0] ? roleLabel(locale, champion.tags[0]) : ""}
                     </p>
-                    <p className="text-ink-faint truncate text-[11px]">{champion.tags[0] ?? ""}</p>
                   </div>
                 </>
               ) : (
@@ -129,7 +134,7 @@ export function TeamColumn({
                     align === "right" ? "justify-end" : ""
                   }`}
                 >
-                  Pick {slot + 1}
+                  {t("pick")} {slot + 1}
                 </div>
               )}
             </div>

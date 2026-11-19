@@ -20,9 +20,8 @@ export const championResponseSchema = z.object({
 export const championSchema = z.object({
   id: z.string(),
   key: z.string(),
-  name: z.string(),
-  title: z.string(),
   tags: z.array(z.string()),
+  names: z.record(z.string(), z.string()),
 });
 
 export const gameResultSchema = z.object({
