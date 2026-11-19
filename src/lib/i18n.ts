@@ -111,6 +111,28 @@ const en = {
   loadingRoom: "Loading room...",
   backHome: "Back to home",
   actionRejected: "Action rejected",
+
+  rivalScouting: "Rival scouting",
+  scoutingHint:
+    "Enter a rival's Riot ID to see their most-played champions and mark likely picks as ban targets.",
+  riotIdPlaceholder: "Riot ID (Name#TAG)",
+  regionLabel: "Region",
+  scout: "Scout",
+  scoutingLoading: "Scouting...",
+  mastery: "Mastery",
+  recentForm: "Recent form",
+  gamesLabel: "games",
+  markForBan: "Mark for ban",
+  marked: "Marked",
+  markAllBans: "Mark all as ban targets",
+  clearMarks: "Clear marks",
+  banTargets: "Ban targets",
+  noMasteryData: "No recent games found to analyse.",
+  scoutError_not_configured: "Scouting is not configured.",
+  scoutError_invalid_input: "Enter a Riot ID as Name#TAG and choose a region.",
+  scoutError_not_found: "Player not found. Check the Riot ID and region.",
+  scoutError_rate_limited: "Rate limit reached. Try again in a moment.",
+  scoutError_upstream: "The Riot API is unavailable right now.",
 };
 
 type Dictionary = typeof en;
@@ -211,6 +233,28 @@ const es: Dictionary = {
   loadingRoom: "Cargando sala...",
   backHome: "Volver al inicio",
   actionRejected: "Acción rechazada",
+
+  rivalScouting: "Scouting de rivales",
+  scoutingHint:
+    "Ingresa el Riot ID de un rival para ver sus campeones más jugados y marcar los probables como objetivos de ban.",
+  riotIdPlaceholder: "Riot ID (Nombre#TAG)",
+  regionLabel: "Región",
+  scout: "Analizar",
+  scoutingLoading: "Analizando...",
+  mastery: "Maestría",
+  recentForm: "Forma reciente",
+  gamesLabel: "partidas",
+  markForBan: "Marcar para ban",
+  marked: "Marcado",
+  markAllBans: "Marcar todos como objetivos de ban",
+  clearMarks: "Limpiar marcas",
+  banTargets: "Objetivos de ban",
+  noMasteryData: "No se encontraron partidas recientes para analizar.",
+  scoutError_not_configured: "El scouting no está configurado.",
+  scoutError_invalid_input: "Ingresa un Riot ID como Nombre#TAG y elige una región.",
+  scoutError_not_found: "Jugador no encontrado. Revisa el Riot ID y la región.",
+  scoutError_rate_limited: "Límite alcanzado. Intenta de nuevo en un momento.",
+  scoutError_upstream: "La API de Riot no está disponible ahora.",
 };
 
 export const dictionaries: Record<Locale, Dictionary> = { en, es };

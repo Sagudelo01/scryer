@@ -9,6 +9,8 @@ import { Logo } from "@/components/brand/Logo";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { LanguageToggle } from "@/components/i18n/LanguageToggle";
 import { useRoom } from "@/hooks/useRoom";
+import { useBanTargets } from "@/hooks/useBanTargets";
+import { ScoutingPanel } from "@/components/scouting/ScoutingPanel";
 import { ChampionGrid } from "@/components/draft/ChampionGrid";
 import { TeamColumn } from "@/components/draft/TeamColumn";
 import { SeriesBar } from "@/components/draft/SeriesBar";
@@ -17,6 +19,7 @@ export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionD
   const { version, champions } = data;
   const { t } = useLanguage();
   const room = useRoom(code);
+  const bans = useBanTargets();
 
   const championsById = useMemo(() => new Map(champions.map((c) => [c.id, c])), [champions]);
   const state = room.room?.state ?? engine.createInitialState();
@@ -71,6 +74,15 @@ export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionD
         history={state.history}
         championsById={championsById}
         lockedCount={fearlessLocked.size}
+      />
+
+      <ScoutingPanel
+        champions={champions}
+        version={version}
+        marked={bans.banTargets}
+        onToggle={bans.toggle}
+        onMarkAll={bans.markAll}
+        onClear={bans.clear}
       />
 
       {/* Turn indicator */}
@@ -163,6 +175,7 @@ export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionD
             isFearlessLocked={(id) => fearlessLocked.has(id)}
             disabled={!canActNow}
             onSelect={room.select}
+            highlighted={bans.banTargets}
           />
         </div>
 

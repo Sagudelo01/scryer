@@ -3,10 +3,12 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { useDraft } from "@/hooks/useDraft";
+import { useBanTargets } from "@/hooks/useBanTargets";
 import type { ChampionData } from "@/lib/types";
 import { Logo } from "@/components/brand/Logo";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { LanguageToggle } from "@/components/i18n/LanguageToggle";
+import { ScoutingPanel } from "@/components/scouting/ScoutingPanel";
 import { ChampionGrid } from "./ChampionGrid";
 import { TeamColumn } from "./TeamColumn";
 import { SeriesBar } from "./SeriesBar";
@@ -15,6 +17,7 @@ export function DraftBoard({ data }: { data: ChampionData }) {
   const { version, champions } = data;
   const { t } = useLanguage();
   const draft = useDraft();
+  const bans = useBanTargets();
 
   const championsById = useMemo(() => new Map(champions.map((c) => [c.id, c])), [champions]);
 
@@ -47,6 +50,15 @@ export function DraftBoard({ data }: { data: ChampionData }) {
         history={draft.history}
         championsById={championsById}
         lockedCount={draft.fearlessLocked.size}
+      />
+
+      <ScoutingPanel
+        champions={champions}
+        version={version}
+        marked={bans.banTargets}
+        onToggle={bans.toggle}
+        onMarkAll={bans.markAll}
+        onClear={bans.clear}
       />
 
       {/* Turn indicator */}
@@ -126,6 +138,7 @@ export function DraftBoard({ data }: { data: ChampionData }) {
             isFearlessLocked={(id) => draft.fearlessLocked.has(id)}
             disabled={draft.isComplete}
             onSelect={draft.select}
+            highlighted={bans.banTargets}
           />
         </div>
 

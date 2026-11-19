@@ -15,6 +15,8 @@ interface ChampionGridProps {
   isFearlessLocked: (championId: string) => boolean;
   disabled: boolean;
   onSelect: (championId: string) => void;
+  /** Rival mains flagged as ban targets from scouting. */
+  highlighted?: Set<string>;
 }
 
 export function ChampionGrid({
@@ -24,6 +26,7 @@ export function ChampionGrid({
   isFearlessLocked,
   disabled,
   onSelect,
+  highlighted,
 }: ChampionGridProps) {
   const { locale, t } = useLanguage();
   const [query, setQuery] = useState("");
@@ -82,6 +85,7 @@ export function ChampionGrid({
           const name = championName(champion, locale);
           const unavailable = isUnavailable(champion.id);
           const fearless = isFearlessLocked(champion.id);
+          const marked = highlighted?.has(champion.id) ?? false;
           return (
             <button
               key={champion.id}
@@ -97,6 +101,8 @@ export function ChampionGrid({
             >
               <span
                 className={`relative aspect-square w-full overflow-hidden rounded-md border transition-all duration-150 ${
+                  marked && !unavailable ? "ring-red-side/80 ring-2" : ""
+                } ${
                   unavailable
                     ? "border-line/60"
                     : "border-line group-hover:border-gold group-hover:-translate-y-0.5 group-hover:shadow-[0_8px_22px_-8px_rgba(200,170,110,0.65)]"
@@ -113,6 +119,23 @@ export function ChampionGrid({
                   }`}
                 />
                 {unavailable && <span className="bg-abyss/65 absolute inset-0" />}
+                {marked && !unavailable && (
+                  <span
+                    className="bg-abyss/80 text-red-side absolute top-1 left-1 flex h-5 w-5 items-center justify-center rounded"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-3 w-3"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    >
+                      <circle cx="12" cy="12" r="8" />
+                      <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+                    </svg>
+                  </span>
+                )}
                 {fearless && (
                   <span
                     className="bg-abyss/80 text-gold absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded"
