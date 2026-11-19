@@ -19,6 +19,10 @@ heart of the project: reading the draft before it happens.
   captains draft in real time while spectators watch read-only, synced through
   Supabase Realtime. The current turn, picks, bans and Fearless locks stay in
   step for everyone, and the local board keeps working with no setup.
+- **Rival scouting.** Enter a rival's Riot ID and region to see their most
+  mastered champions, enriched with win rate and games from their recent
+  matches. Flag their mains as ban targets and they are highlighted right in the
+  draft grid. The Riot key stays on the server.
 - **Series tracking.** Confirm a game to lock its picks and move on to the next
   one. The running pool of used champions is shown at all times.
 - **Champion grid.** Search by name and filter by role, with live champion data
@@ -31,8 +35,7 @@ heart of the project: reading the draft before it happens.
 
 ## Planned
 
-Later phases add live scouting of opponents' champion mastery (Riot Match-V5 and
-Champion-Mastery APIs), report exports for coaches and private tournament rooms.
+Later phases add report exports for coaches and private tournament rooms.
 
 ## Tech stack
 
@@ -43,7 +46,8 @@ Champion-Mastery APIs), report exports for coaches and private tournament rooms.
 - [Zod](https://zod.dev) for validating external data and draft state
 - [Vitest](https://vitest.dev) for unit tests
 - Riot [Data Dragon](https://developer.riotgames.com/docs/lol#data-dragon) for
-  champion data and images
+  champion data and images, and the Riot Games API (Account-V1,
+  Champion-Mastery-V4, Match-V5) for scouting
 - Deployed on [Vercel](https://vercel.com)
 
 ## Getting started
@@ -91,6 +95,27 @@ Every draft mutation goes through `SECURITY DEFINER` database functions that
 check turn ownership and the Fearless rule, so only the captain whose turn it is
 can act. Row level security blocks direct writes to the table.
 
+## Scouting (Riot API)
+
+Scouting is optional too. The draft and rooms work without it.
+
+1. Sign in at [developer.riotgames.com](https://developer.riotgames.com) and
+   generate a development API key.
+2. Add it to `.env.local`:
+
+   ```bash
+   RIOT_API_KEY=RGAPI-your-development-key
+   ```
+
+3. For deployment, add `RIOT_API_KEY` in the Vercel project settings and
+   redeploy.
+
+The key is read only inside the server route handler at `src/app/api/scouting`
+and is never sent to the browser. Responses are cached with sensible TTLs, the
+client's request rate is limited, and rate-limit (429) responses are retried
+using the `Retry-After` header. A development key is enough to try scouting; a
+production key raises the limits.
+
 Other scripts:
 
 ```bash
@@ -104,11 +129,12 @@ npm test            # run the unit tests
 ## Quality
 
 The draft logic lives in a pure, framework-agnostic engine
-(`src/lib/draft-engine.ts`) and the room turn and permission rules in
-`src/lib/room.ts`, both covered by Vitest. External Data Dragon responses, the
-draft state and the data returned by Supabase are validated with Zod. Every push
-and pull request runs lint, type-check, tests and a production build through
-GitHub Actions.
+(`src/lib/draft-engine.ts`), the room turn and permission rules in
+`src/lib/room.ts`, and the scouting aggregation in `src/lib/scouting.ts`, all
+covered by Vitest. External Data Dragon and Riot API responses, the draft state
+and the data returned by Supabase are validated with Zod. Every push and pull
+request runs lint, type-check, tests and a production build through GitHub
+Actions.
 
 ## Legal
 
