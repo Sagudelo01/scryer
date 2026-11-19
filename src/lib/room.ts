@@ -24,7 +24,3 @@ export function canAct(role: Role, state: DraftState): boolean {
   if (role === "spectator") return false;
   return turnTeam(state) === role;
 }
-
-export function isRoomFull(room: Pick<Room, "blueCaptain" | "redCaptain">): boolean {
-  return Boolean(room.blueCaptain) && Boolean(room.redCaptain);
-}

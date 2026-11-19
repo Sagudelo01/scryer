@@ -17,13 +17,6 @@ export const championResponseSchema = z.object({
   data: z.record(z.string(), rawChampionSchema),
 });
 
-export const championSchema = z.object({
-  id: z.string(),
-  key: z.string(),
-  tags: z.array(z.string()),
-  names: z.record(z.string(), z.string()),
-});
-
 export const gameResultSchema = z.object({
   bluePicks: z.array(z.string()),
   redPicks: z.array(z.string()),
@@ -46,7 +39,3 @@ export const roomRowSchema = z.object({
   state: draftStateSchema,
   updated_at: z.string(),
 });
-
-export type RawChampion = z.infer<typeof rawChampionSchema>;
-export type DraftStateInput = z.infer<typeof draftStateSchema>;
-export type RoomRow = z.infer<typeof roomRowSchema>;

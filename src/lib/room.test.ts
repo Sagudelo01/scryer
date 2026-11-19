@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DRAFT_TURN_ORDER, canAct, isRoomFull, roleForUid, turnTeam } from "./room";
+import { DRAFT_TURN_ORDER, canAct, roleForUid, turnTeam } from "./room";
 import type { DraftState } from "./types";
 
 function stateAtCursor(cursor: number): DraftState {
@@ -80,13 +80,5 @@ describe("canAct", () => {
     const done = stateAtCursor(20);
     expect(canAct("blue", done)).toBe(false);
     expect(canAct("red", done)).toBe(false);
-  });
-});
-
-describe("isRoomFull", () => {
-  it("is true only when both captains are seated", () => {
-    expect(isRoomFull({ blueCaptain: "a", redCaptain: "b" })).toBe(true);
-    expect(isRoomFull({ blueCaptain: "a", redCaptain: null })).toBe(false);
-    expect(isRoomFull({ blueCaptain: null, redCaptain: null })).toBe(false);
   });
 });
