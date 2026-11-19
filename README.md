@@ -31,16 +31,13 @@ behind the project: reading the draft before it happens.
 
 ## Screenshots
 
-![Landing](docs/landing.jpg)
+![Landing](docs/landing.png)
 
-![Draft board](docs/draft-board.jpg)
+![Local draft board](docs/draft-board.png)
 
-![Live room](docs/live-room.jpg)
+![Live room with both captains](docs/live-room.png)
 
-![Scouting panel](docs/scouting.jpg)
-
-The scouting image shows the panel; the champion list and ban-target highlights
-appear once a `RIOT_API_KEY` is configured.
+![Rival scouting](docs/scouting.png)
 
 ## Tech stack
 
