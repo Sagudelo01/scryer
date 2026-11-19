@@ -30,7 +30,8 @@ function rowFromRpc(data: unknown): Room {
   return parseRoom(Array.isArray(data) ? data[0] : data);
 }
 
-export function useRoom(code: string): UseRoomResult {
+export function useRoom(code: string, options: { autoJoin?: boolean } = {}): UseRoomResult {
+  const autoJoin = options.autoJoin ?? true;
   const configured = isSupabaseConfigured();
   const [loading, setLoading] = useState(configured);
   const [room, setRoom] = useState<Room | null>(null);
@@ -50,23 +51,45 @@ export function useRoom(code: string): UseRoomResult {
 
     async function init() {
       try {
-        const myUid = await ensureAnonSession();
-        if (!active) return;
-        setUid(myUid);
+        let myUid: string | null = null;
 
-        const { data, error: joinError } = await supabase.rpc("join_room", { p_code: code });
-        if (!active) return;
-        if (joinError) {
-          setError(joinError.message);
-          setLoading(false);
-          return;
+        if (autoJoin) {
+          myUid = await ensureAnonSession();
+          if (!active) return;
+          setUid(myUid);
+          const { data, error: joinError } = await supabase.rpc("join_room", { p_code: code });
+          if (!active) return;
+          if (joinError) {
+            setError(joinError.message);
+            setLoading(false);
+            return;
+          }
+          if (!data || (Array.isArray(data) && data.length === 0)) {
+            setError("not-found");
+            setLoading(false);
+            return;
+          }
+          setRoom(rowFromRpc(data));
+        } else {
+          // Read-only spectator (broadcast view): no sign-in, no seat claimed.
+          const { data, error: readError } = await supabase
+            .from("rooms")
+            .select("*")
+            .eq("code", code)
+            .maybeSingle();
+          if (!active) return;
+          if (readError) {
+            setError(readError.message);
+            setLoading(false);
+            return;
+          }
+          if (!data) {
+            setError("not-found");
+            setLoading(false);
+            return;
+          }
+          setRoom(parseRoom(data));
         }
-        if (!data || (Array.isArray(data) && data.length === 0)) {
-          setError("not-found");
-          setLoading(false);
-          return;
-        }
-        setRoom(rowFromRpc(data));
         setLoading(false);
 
         const dbChannel = supabase
@@ -82,24 +105,26 @@ export function useRoom(code: string): UseRoomResult {
               }
             },
           )
-          .subscribe();
+          .subscribe((status) => {
+            if (status === "SUBSCRIBED") setConnection("connected");
+            else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED")
+              setConnection("reconnecting");
+          });
 
-        const presenceChannel = supabase.channel(`room-presence-${code}`, {
-          config: { presence: { key: myUid } },
-        });
-        presenceChannel.on("presence", { event: "sync" }, () => {
-          setOnlineUids(Object.keys(presenceChannel.presenceState()));
-        });
-        presenceChannel.subscribe(async (status) => {
-          if (status === "SUBSCRIBED") {
-            setConnection("connected");
-            await presenceChannel.track({ uid: myUid });
-          } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED") {
-            setConnection("reconnecting");
-          }
-        });
+        channelsRef.current = [dbChannel];
 
-        channelsRef.current = [dbChannel, presenceChannel];
+        if (autoJoin && myUid) {
+          const presenceChannel = supabase.channel(`room-presence-${code}`, {
+            config: { presence: { key: myUid } },
+          });
+          presenceChannel.on("presence", { event: "sync" }, () => {
+            setOnlineUids(Object.keys(presenceChannel.presenceState()));
+          });
+          presenceChannel.subscribe(async (status) => {
+            if (status === "SUBSCRIBED") await presenceChannel.track({ uid: myUid });
+          });
+          channelsRef.current.push(presenceChannel);
+        }
       } catch (e) {
         if (!active) return;
         setError(e instanceof Error ? e.message : "Unexpected error");
@@ -116,7 +141,7 @@ export function useRoom(code: string): UseRoomResult {
       }
       channelsRef.current = [];
     };
-  }, [code, configured]);
+  }, [code, configured, autoJoin]);
 
   const role = useMemo<Role>(
     () => (room && uid ? roleForUid(room, uid) : "spectator"),

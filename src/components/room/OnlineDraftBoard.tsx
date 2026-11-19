@@ -249,6 +249,13 @@ function RoomStrip({ code, room }: { code: string; room: ReturnType<typeof useRo
       </div>
       <div className="flex items-center gap-3">
         {waiting && <span className="text-ink-dim text-xs">{t("waitingOpponent")}</span>}
+        <Link
+          href={`/room/${code}/stream`}
+          target="_blank"
+          className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded border px-3 py-1.5 text-xs font-medium transition-colors"
+        >
+          {t("streamOverlay")}
+        </Link>
         <button
           type="button"
           onClick={copyLink}
