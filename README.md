@@ -15,6 +15,10 @@ heart of the project: reading the draft before it happens.
 - **Fearless Draft board.** Draft a full series using the standard competitive
   ban and pick order. Every champion picked in an earlier game of the series is
   locked out and cannot be picked again, exactly like a Fearless series.
+- **Live rooms.** Create a room with a short code and share the link. Two
+  captains draft in real time while spectators watch read-only, synced through
+  Supabase Realtime. The current turn, picks, bans and Fearless locks stay in
+  step for everyone, and the local board keeps working with no setup.
 - **Series tracking.** Confirm a game to lock its picks and move on to the next
   one. The running pool of used champions is shown at all times.
 - **Champion grid.** Search by name and filter by role, with live champion data
@@ -27,22 +31,20 @@ heart of the project: reading the draft before it happens.
 
 ## Planned
 
-Later phases add real-time drafting across two separate rooms (Supabase
-Realtime), live scouting of opponents' champion mastery (Riot Match-V5 and
+Later phases add live scouting of opponents' champion mastery (Riot Match-V5 and
 Champion-Mastery APIs), report exports for coaches and private tournament rooms.
 
 ## Tech stack
 
 - [Next.js](https://nextjs.org) (App Router) and TypeScript
 - [Tailwind CSS](https://tailwindcss.com)
+- [Supabase](https://supabase.com) (Postgres and Realtime) for live rooms and
+  anonymous authentication
 - [Zod](https://zod.dev) for validating external data and draft state
 - [Vitest](https://vitest.dev) for unit tests
 - Riot [Data Dragon](https://developer.riotgames.com/docs/lol#data-dragon) for
   champion data and images
 - Deployed on [Vercel](https://vercel.com)
-
-Planned for later phases: [Supabase](https://supabase.com) (Postgres and
-Realtime) for rooms and shared state, and the Riot Games API for scouting.
 
 ## Getting started
 
@@ -56,8 +58,38 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser. The draft
-room lives at [http://localhost:3000/draft](http://localhost:3000/draft).
+Open [http://localhost:3000](http://localhost:3000) in your browser. The local
+draft board lives at [http://localhost:3000/draft](http://localhost:3000/draft)
+and needs no configuration.
+
+## Live rooms (Supabase)
+
+Live rooms are optional. The local board works without any of this; the steps
+below only enable real-time multiplayer.
+
+1. Create a project at [supabase.com](https://supabase.com).
+2. In Authentication > Sign In / Providers, enable **Anonymous sign-ins**.
+3. In the SQL Editor, run the migration in
+   [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql). It
+   creates the `rooms` table, enables row level security and installs the
+   authoritative draft functions, and adds the table to the realtime
+   publication.
+4. Copy `.env.example` to `.env.local` and fill in the values from Project
+   Settings > API:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   - `NEXT_PUBLIC_SUPABASE_URL` — the Project URL
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — the anon public key
+
+5. For deployment, add the same two variables in the Vercel project settings
+   (Production, Preview and Development) and redeploy.
+
+Every draft mutation goes through `SECURITY DEFINER` database functions that
+check turn ownership and the Fearless rule, so only the captain whose turn it is
+can act. Row level security blocks direct writes to the table.
 
 Other scripts:
 
@@ -72,9 +104,11 @@ npm test            # run the unit tests
 ## Quality
 
 The draft logic lives in a pure, framework-agnostic engine
-(`src/lib/draft-engine.ts`) covered by Vitest. External Data Dragon responses
-and the draft state are validated with Zod. Every push and pull request runs
-lint, type-check, tests and a production build through GitHub Actions.
+(`src/lib/draft-engine.ts`) and the room turn and permission rules in
+`src/lib/room.ts`, both covered by Vitest. External Data Dragon responses, the
+draft state and the data returned by Supabase are validated with Zod. Every push
+and pull request runs lint, type-check, tests and a production build through
+GitHub Actions.
 
 ## Legal
 
