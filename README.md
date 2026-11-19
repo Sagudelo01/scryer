@@ -23,11 +23,21 @@ behind the project: reading the draft before it happens.
 - **Rival champion scouting.** Enter a Riot ID and region to see a rival's most
   mastered champions, with how often each one shows up in their recent games.
   Flag champions as ban targets and they are highlighted right in the draft grid.
+- **Fearless reserve tracker.** As picks are burned across games, the board shows
+  how many champions are left for each role and warns when a role is running low
+  or out of options.
+- **Stream overlay and series report.** Every room has a read-only overlay at
+  `/room/<code>/stream` for OBS, with a transparent or custom background, and a
+  shareable report at `/room/<code>/report` listing the bans, picks and locks of
+  each game. Both sync live and need no login.
+- **Optional turn timer.** Turn on a configurable countdown that resets each turn
+  and flashes a warning in the last seconds.
 - **English and Spanish.** A language switch translates the interface and the
   champion names, loading the matching Data Dragon locale. The choice is saved
   and defaults to the browser language.
-- **Responsive, competitive design.** A dark hextech-inspired interface that
-  works from phone to ultrawide.
+- **Premium, responsive design.** A dark hextech interface with an animated logo,
+  smooth pick and ban transitions, loading skeletons and reduced-motion support,
+  from phone to ultrawide.
 
 ## Screenshots
 
@@ -95,10 +105,10 @@ cp .env.example .env.local
 
 1. Create a project at [supabase.com](https://supabase.com).
 2. In Authentication, enable **Anonymous sign-ins**.
-3. In the SQL Editor, run
-   [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql). It
-   creates the `rooms` table, enables row level security, installs the
-   authoritative draft functions and adds the table to the realtime publication.
+3. In the SQL Editor, run the files in
+   [`supabase/migrations`](supabase/migrations) in order (`0001` then `0002`).
+   They create the `rooms` table, enable row level security, install the
+   authoritative draft functions and add the table to the realtime publication.
 4. Copy the Project URL and anon key (Project Settings > API) into `.env.local`.
 5. For deployment, add the same two variables in the Vercel project settings and
    redeploy.
@@ -141,8 +151,8 @@ supabase/migrations/ Versioned SQL (schema, RLS, draft functions)
 ## Quality
 
 The draft logic (`src/lib/draft-engine.ts`), the room turn and permission rules
-(`src/lib/room.ts`) and the scouting aggregation (`src/lib/scouting.ts`) are pure
-and covered by Vitest. External Data Dragon and Riot API responses, the draft
+(`src/lib/room.ts`), the role reserve (`src/lib/reserve.ts`) and the scouting
+aggregation (`src/lib/scouting.ts`) are pure and covered by Vitest. External Data Dragon and Riot API responses, the draft
 state and the data returned by Supabase are validated with Zod. Every push and
 pull request runs lint, type-check, tests and a production build through GitHub
 Actions.
