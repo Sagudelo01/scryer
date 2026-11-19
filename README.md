@@ -18,7 +18,10 @@ heart of the project: reading the draft before it happens.
 - **Series tracking.** Confirm a game to lock its picks and move on to the next
   one. The running pool of used champions is shown at all times.
 - **Champion grid.** Search by name and filter by role, with live champion data
-  and icons pulled from Riot's Data Dragon and cached on the server.
+  and square portraits pulled from Riot's Data Dragon and cached on the server.
+- **English and Spanish.** A language switch in the header translates both the
+  interface and the champion names, loading the matching Data Dragon locale. The
+  choice is saved and defaults to the browser language.
 - **Responsive, competitive design.** A dark hextech-inspired interface that
   works from phone to ultrawide.
 
