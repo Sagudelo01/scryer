@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Logo, LogoMark } from "@/components/brand/Logo";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { LanguageToggle } from "@/components/i18n/LanguageToggle";
+import { OnlineEntry } from "@/components/room/OnlineEntry";
 
 export function LandingContent() {
   const { t } = useLanguage();
@@ -45,22 +46,22 @@ export function LandingContent() {
             {t("heroTitleA")} <span className="text-shimmer">{t("heroTitleB")}</span>
           </h1>
           <p className="text-ink-dim mt-6 max-w-2xl text-lg">{t("heroBody")}</p>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/draft"
-              className="group border-gold bg-gold/20 font-display text-gold-bright hover:bg-gold/30 rounded-md border px-6 py-3 text-base font-bold tracking-wide transition-all hover:shadow-[0_8px_30px_-8px_rgba(200,170,110,0.7)]"
-            >
-              {t("startDraft")}
-              <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
-            <a
-              href="#how-it-works"
-              className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded-md border px-6 py-3 text-base font-medium transition-colors"
-            >
-              {t("howItWorks")}
-            </a>
+          <div className="mt-9 flex w-full flex-col items-center gap-4">
+            <OnlineEntry />
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/draft"
+                className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded-md border px-6 py-3 text-base font-medium transition-colors"
+              >
+                {t("localDraft")}
+              </Link>
+              <a
+                href="#how-it-works"
+                className="text-ink-dim hover:text-ink px-4 py-3 text-base font-medium transition-colors"
+              >
+                {t("howItWorks")}
+              </a>
+            </div>
           </div>
         </div>
       </section>
