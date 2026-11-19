@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Logo, LogoMark } from "@/components/brand/Logo";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { LanguageToggle } from "@/components/i18n/LanguageToggle";
+import { HelpButton } from "@/components/ui/HelpButton";
 import { OnlineEntry } from "@/components/room/OnlineEntry";
 
 export function LandingContent() {
@@ -20,6 +21,7 @@ export function LandingContent() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
         <Logo />
         <div className="flex items-center gap-3">
+          <HelpButton />
           <LanguageToggle />
           <Link
             href="/draft"

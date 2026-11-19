@@ -19,6 +19,21 @@ export const LOCALE_LABEL: Record<Locale, string> = {
 const en = {
   openDraft: "Open draft room",
   language: "Language",
+  help: "Help",
+  close: "Close",
+  guideTitle: "Quick guide",
+  guideLocalTitle: "Local draft",
+  guideLocalBody:
+    "Open the draft room and run a full Fearless series on one screen. Pick and ban for both sides; picks from earlier games stay locked.",
+  guideRoomTitle: "Live rooms",
+  guideRoomBody:
+    "Create a room and share the link. The first person to join becomes the red captain, the rest watch, and only the captain on the clock can act.",
+  guideScoutTitle: "Scouting",
+  guideScoutBody:
+    "Enter a rival's Riot ID to see their most played champions and mark likely picks as ban targets right on the grid.",
+  guideStreamTitle: "Broadcast",
+  guideStreamBody:
+    "Each room has a read-only overlay for OBS and a shareable series report with every game's bans and picks.",
 
   game: "Game",
   fearless: "Fearless",
@@ -36,6 +51,8 @@ const en = {
   confirmGame: "Confirm game",
   resetSeries: "Reset series",
   turnTimer: "Turn timer",
+  timerHint:
+    "Simulates the draft's per-turn time limit. Visual reminder only — it does not auto-pick.",
 
   patch: "Patch",
   footerData: "Champion data from Riot Data Dragon. Scryer is not endorsed by Riot Games.",
@@ -147,6 +164,21 @@ export type TranslationKey = keyof Dictionary;
 const es: Dictionary = {
   openDraft: "Abrir sala de draft",
   language: "Idioma",
+  help: "Ayuda",
+  close: "Cerrar",
+  guideTitle: "Guía rápida",
+  guideLocalTitle: "Draft local",
+  guideLocalBody:
+    "Abre la sala de draft y juega una serie Fearless completa en una sola pantalla. Elige y banea por ambos lados; los picks de juegos anteriores quedan bloqueados.",
+  guideRoomTitle: "Salas en vivo",
+  guideRoomBody:
+    "Crea una sala y comparte el enlace. El primero en entrar es el capitán rojo, el resto observa, y solo el capitán en turno puede actuar.",
+  guideScoutTitle: "Scouting",
+  guideScoutBody:
+    "Ingresa el Riot ID de un rival para ver sus campeones más jugados y marcar los probables como objetivos de ban en la grilla.",
+  guideStreamTitle: "Transmisión",
+  guideStreamBody:
+    "Cada sala tiene un overlay de solo lectura para OBS y un reporte de serie compartible con los bans y picks de cada juego.",
 
   game: "Juego",
   fearless: "Fearless",
@@ -164,6 +196,8 @@ const es: Dictionary = {
   confirmGame: "Confirmar juego",
   resetSeries: "Reiniciar serie",
   turnTimer: "Temporizador",
+  timerHint:
+    "Simula el límite de tiempo por turno del draft real. Solo es un aviso visual: no elige automáticamente.",
 
   patch: "Parche",
   footerData: "Datos de campeones de Riot Data Dragon. Scryer no está avalado por Riot Games.",

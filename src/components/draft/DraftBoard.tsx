@@ -8,6 +8,7 @@ import type { ChampionData } from "@/lib/types";
 import { Logo } from "@/components/brand/Logo";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { LanguageToggle } from "@/components/i18n/LanguageToggle";
+import { HelpButton } from "@/components/ui/HelpButton";
 import { ScoutingPanel } from "@/components/scouting/ScoutingPanel";
 import { ChampionGrid } from "./ChampionGrid";
 import { TeamColumn } from "./TeamColumn";
@@ -41,6 +42,7 @@ export function DraftBoard({ data }: { data: ChampionData }) {
           <Logo />
         </Link>
         <div className="flex items-center gap-2">
+          <HelpButton />
           <LanguageToggle />
           <span className="border-gold/40 bg-gold/10 font-display text-gold rounded-full border px-3 py-1 text-sm font-semibold tracking-wide">
             {t("game")} {draft.gameNumber}

@@ -8,6 +8,7 @@ import type { ChampionData, Team } from "@/lib/types";
 import { Logo } from "@/components/brand/Logo";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { LanguageToggle } from "@/components/i18n/LanguageToggle";
+import { HelpButton } from "@/components/ui/HelpButton";
 import { useRoom } from "@/hooks/useRoom";
 import { useBanTargets } from "@/hooks/useBanTargets";
 import { ScoutingPanel } from "@/components/scouting/ScoutingPanel";
@@ -64,6 +65,7 @@ export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionD
           <span className="border-line text-ink-dim rounded-full border px-3 py-1 text-xs font-medium">
             {roleLabelText}
           </span>
+          <HelpButton />
           <LanguageToggle />
           <span className="border-gold/40 bg-gold/10 font-display text-gold rounded-full border px-3 py-1 text-sm font-semibold tracking-wide">
             {t("game")} {engine.gameNumber(state)}
