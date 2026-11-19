@@ -22,6 +22,7 @@ export function TurnTimer({ turnKey, active }: TurnTimerProps) {
       <button
         type="button"
         onClick={() => setEnabled(true)}
+        title={t("timerHint")}
         className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded border px-3 py-1.5 text-xs font-medium transition-colors"
       >
         {t("turnTimer")}
@@ -30,7 +31,10 @@ export function TurnTimer({ turnKey, active }: TurnTimerProps) {
   }
 
   return (
-    <div className="border-line flex items-center gap-2 rounded border px-2 py-1">
+    <div
+      className="border-line flex items-center gap-2 rounded border px-2 py-1"
+      title={t("timerHint")}
+    >
       <select
         value={seconds}
         onChange={(e) => setSeconds(Number(e.target.value))}
