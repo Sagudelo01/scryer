@@ -15,6 +15,7 @@ import { ChampionGrid } from "@/components/draft/ChampionGrid";
 import { TeamColumn } from "@/components/draft/TeamColumn";
 import { SeriesBar } from "@/components/draft/SeriesBar";
 import { ReserveTracker } from "@/components/draft/ReserveTracker";
+import { TurnTimer } from "@/components/draft/TurnTimer";
 
 export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionData }) {
   const { version, champions } = data;
@@ -128,34 +129,37 @@ export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionD
             )}
           </p>
         </div>
-        {isCaptain && (
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={room.undo}
-              disabled={state.cursor === 0}
-              className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded border px-3 py-1.5 text-xs font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {t("undo")}
-            </button>
-            <button
-              type="button"
-              onClick={room.resetGame}
-              className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded border px-3 py-1.5 text-xs font-medium transition-colors"
-            >
-              {t("resetGame")}
-            </button>
-            {isComplete && (
+        <div className="flex flex-wrap items-center gap-2">
+          <TurnTimer turnKey={state.cursor} active={isDrafting && !isComplete} />
+          {isCaptain && (
+            <>
               <button
                 type="button"
-                onClick={room.confirmGame}
-                className="animate-pop border-gold bg-gold/20 text-gold-bright hover:bg-gold/30 rounded border px-4 py-1.5 text-xs font-bold tracking-wide transition-colors"
+                onClick={room.undo}
+                disabled={state.cursor === 0}
+                className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded border px-3 py-1.5 text-xs font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40"
               >
-                {t("confirmGame")} →
+                {t("undo")}
               </button>
-            )}
-          </div>
-        )}
+              <button
+                type="button"
+                onClick={room.resetGame}
+                className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded border px-3 py-1.5 text-xs font-medium transition-colors"
+              >
+                {t("resetGame")}
+              </button>
+              {isComplete && (
+                <button
+                  type="button"
+                  onClick={room.confirmGame}
+                  className="animate-pop border-gold bg-gold/20 text-gold-bright hover:bg-gold/30 rounded border px-4 py-1.5 text-xs font-bold tracking-wide transition-colors"
+                >
+                  {t("confirmGame")} →
+                </button>
+              )}
+            </>
+          )}
+        </div>
       </div>
 
       {room.actionError && (

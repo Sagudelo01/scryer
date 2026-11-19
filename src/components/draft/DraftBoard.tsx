@@ -13,6 +13,7 @@ import { ChampionGrid } from "./ChampionGrid";
 import { TeamColumn } from "./TeamColumn";
 import { SeriesBar } from "./SeriesBar";
 import { ReserveTracker } from "./ReserveTracker";
+import { TurnTimer } from "./TurnTimer";
 
 export function DraftBoard({ data }: { data: ChampionData }) {
   const { version, champions } = data;
@@ -99,7 +100,8 @@ export function DraftBoard({ data }: { data: ChampionData }) {
             )}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <TurnTimer turnKey={draft.cursor} active={!draft.isComplete} />
           <button
             type="button"
             onClick={draft.undo}

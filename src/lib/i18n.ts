@@ -35,6 +35,7 @@ const en = {
   resetGame: "Reset game",
   confirmGame: "Confirm game",
   resetSeries: "Reset series",
+  turnTimer: "Turn timer",
 
   patch: "Patch",
   footerData: "Champion data from Riot Data Dragon. Scryer is not endorsed by Riot Games.",
@@ -156,6 +157,7 @@ const es: Dictionary = {
   resetGame: "Reiniciar juego",
   confirmGame: "Confirmar juego",
   resetSeries: "Reiniciar serie",
+  turnTimer: "Temporizador",
 
   patch: "Parche",
   footerData: "Datos de campeones de Riot Data Dragon. Scryer no está avalado por Riot Games.",
