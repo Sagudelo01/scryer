@@ -65,7 +65,7 @@ export function TeamColumn({
                     width={48}
                     height={48}
                     unoptimized
-                    className="h-full w-full object-cover opacity-80 grayscale"
+                    className="animate-pop h-full w-full object-cover opacity-80 grayscale"
                   />
                   <span className="absolute inset-0 flex items-center justify-center">
                     <span className="bg-red-side/90 h-0.5 w-[130%] rotate-45" />

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { getChampionData } from "@/lib/ddragon";
 import { SeriesReport } from "@/components/room/SeriesReport";
+import { BoardSkeleton } from "@/components/ui/Skeleton";
 
 export const metadata: Metadata = {
   title: "Series Report — Scryer",
@@ -16,7 +17,7 @@ async function ReportLoader({ params }: { params: Promise<{ code: string }> }) {
 
 export default function ReportPage({ params }: { params: Promise<{ code: string }> }) {
   return (
-    <Suspense fallback={<div className="text-ink-dim px-6 py-12 text-center">Loading…</div>}>
+    <Suspense fallback={<BoardSkeleton />}>
       <ReportLoader params={params} />
     </Suspense>
   );

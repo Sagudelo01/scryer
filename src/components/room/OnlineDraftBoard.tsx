@@ -16,6 +16,7 @@ import { TeamColumn } from "@/components/draft/TeamColumn";
 import { SeriesBar } from "@/components/draft/SeriesBar";
 import { ReserveTracker } from "@/components/draft/ReserveTracker";
 import { TurnTimer } from "@/components/draft/TurnTimer";
+import { BoardSkeleton } from "@/components/ui/Skeleton";
 
 export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionData }) {
   const { version, champions } = data;
@@ -46,7 +47,7 @@ export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionD
     return <Notice title={t("roomNotFound")} action={{ href: "/", label: t("backHome") }} />;
   }
   if (room.loading || !room.room) {
-    return <Notice title={t("loadingRoom")} />;
+    return <BoardSkeleton />;
   }
 
   const roleLabelText =

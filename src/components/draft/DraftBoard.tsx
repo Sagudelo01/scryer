@@ -121,7 +121,7 @@ export function DraftBoard({ data }: { data: ChampionData }) {
             <button
               type="button"
               onClick={draft.confirmGame}
-              className="animate-pop border-gold bg-gold/20 text-gold-bright hover:bg-gold/30 rounded border px-4 py-1.5 text-xs font-bold tracking-wide transition-colors"
+              className="animate-pop border-gold bg-gold/20 text-gold-bright hover:bg-gold/30 rounded border px-4 py-1.5 text-xs font-bold tracking-wide transition-all active:scale-[0.97]"
             >
               {t("confirmGame")} →
             </button>

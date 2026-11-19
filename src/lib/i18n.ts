@@ -115,7 +115,6 @@ const en = {
   waitingOtherCaptain: "Waiting for the other captain",
   spectatingNotice: "You are watching this draft.",
   roomNotFound: "Room not found.",
-  loadingRoom: "Loading room...",
   backHome: "Back to home",
   actionRejected: "Action rejected",
 
@@ -244,7 +243,6 @@ const es: Dictionary = {
   waitingOtherCaptain: "Esperando al otro capitán",
   spectatingNotice: "Estás viendo este draft.",
   roomNotFound: "Sala no encontrada.",
-  loadingRoom: "Cargando sala...",
   backHome: "Volver al inicio",
   actionRejected: "Acción rechazada",
 

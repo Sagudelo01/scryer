@@ -48,7 +48,7 @@ export function OnlineEntry() {
         type="button"
         onClick={createRoom}
         disabled={creating}
-        className="group border-gold bg-gold/20 font-display text-gold-bright hover:bg-gold/30 rounded-md border px-6 py-3 text-base font-bold tracking-wide transition-all hover:shadow-[0_8px_30px_-8px_rgba(200,170,110,0.7)] disabled:opacity-60"
+        className="group border-gold bg-gold/20 font-display text-gold-bright hover:bg-gold/30 rounded-md border px-6 py-3 text-base font-bold tracking-wide transition-all hover:shadow-[0_8px_30px_-8px_rgba(200,170,110,0.7)] active:scale-[0.98] disabled:opacity-60"
       >
         {creating ? t("creatingRoom") : t("createRoom")}
         {!creating && (

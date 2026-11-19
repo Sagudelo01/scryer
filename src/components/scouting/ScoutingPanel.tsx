@@ -124,7 +124,7 @@ export function ScoutingPanel({
               type="button"
               onClick={scout}
               disabled={loading}
-              className="border-gold bg-gold/20 text-gold-bright hover:bg-gold/30 rounded-md border px-4 py-2 text-sm font-semibold transition-colors disabled:opacity-60"
+              className="border-gold bg-gold/20 text-gold-bright hover:bg-gold/30 rounded-md border px-4 py-2 text-sm font-semibold transition-all active:scale-[0.98] disabled:opacity-60"
             >
               {loading ? t("scoutingLoading") : t("scout")}
             </button>
