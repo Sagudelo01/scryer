@@ -61,7 +61,6 @@ const en = {
   heroTitleB: "before it happens",
   heroBody:
     "Scryer is a Fearless Draft simulator and scouting tool for the amateur competitive League of Legends scene. Run a full best-of series in a pro-style draft room and keep every pick honest across games.",
-  startDraft: "Start a Fearless draft",
   howItWorks: "How it works",
 
   feature1Title: "Fearless Draft engine",
@@ -95,7 +94,6 @@ const en = {
   room: "Room",
   waitingOpponent: "Waiting for an opponent to join...",
   shareToInvite: "Share this link to invite the other captain.",
-  youAre: "You are",
   roleBlue: "Blue captain",
   roleRed: "Red captain",
   roleSpectator: "Spectator",
@@ -120,8 +118,8 @@ const en = {
   scout: "Scout",
   scoutingLoading: "Scouting...",
   mastery: "Mastery",
-  recentForm: "Recent form",
-  gamesLabel: "games",
+  masteryPoints: "pts",
+  recentGamesLabel: "recent games",
   markForBan: "Mark for ban",
   marked: "Marked",
   markAllBans: "Mark all as ban targets",
@@ -183,7 +181,6 @@ const es: Dictionary = {
   heroTitleB: "antes de que ocurra",
   heroBody:
     "Scryer es un simulador de Fearless Draft y herramienta de scouting para la escena competitiva amateur de League of Legends. Juega una serie al mejor de varios en una sala estilo profesional y mantén cada pick limpio entre juegos.",
-  startDraft: "Inicia un draft Fearless",
   howItWorks: "Cómo funciona",
 
   feature1Title: "Motor de Fearless Draft",
@@ -217,7 +214,6 @@ const es: Dictionary = {
   room: "Sala",
   waitingOpponent: "Esperando a que entre un rival...",
   shareToInvite: "Comparte este enlace para invitar al otro capitán.",
-  youAre: "Eres",
   roleBlue: "Capitán Azul",
   roleRed: "Capitán Rojo",
   roleSpectator: "Espectador",
@@ -242,8 +238,8 @@ const es: Dictionary = {
   scout: "Analizar",
   scoutingLoading: "Analizando...",
   mastery: "Maestría",
-  recentForm: "Forma reciente",
-  gamesLabel: "partidas",
+  masteryPoints: "pts",
+  recentGamesLabel: "partidas recientes",
   markForBan: "Marcar para ban",
   marked: "Marcado",
   markAllBans: "Marcar todos como objetivos de ban",

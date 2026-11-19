@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  aggregateChampionStats,
+  aggregateChampionGames,
   buildScoutReport,
   type MasteryLite,
   type MatchLite,
@@ -8,42 +8,40 @@ import {
 
 const PUUID = "player-1";
 
-function match(entries: Array<[puuid: string, championId: number, win: boolean]>): MatchLite {
-  return {
-    participants: entries.map(([puuid, championId, win]) => ({ puuid, championId, win })),
-  };
+function match(entries: Array<[puuid: string, championId: number]>): MatchLite {
+  return { participants: entries.map(([puuid, championId]) => ({ puuid, championId })) };
 }
 
 const matches: MatchLite[] = [
   match([
-    [PUUID, 1, true],
-    ["enemy", 99, false],
+    [PUUID, 1],
+    ["enemy", 99],
   ]),
   match([
-    [PUUID, 1, false],
-    ["enemy", 98, true],
+    [PUUID, 1],
+    ["enemy", 98],
   ]),
   match([
-    [PUUID, 2, true],
-    ["enemy", 97, false],
+    [PUUID, 2],
+    ["enemy", 97],
   ]),
   // A match the scouted player did not take part in is ignored.
   match([
-    ["other", 5, true],
-    ["enemy", 96, false],
+    ["other", 5],
+    ["enemy", 96],
   ]),
 ];
 
-describe("aggregateChampionStats", () => {
-  it("counts games and wins per champion for the player only", () => {
-    const stats = aggregateChampionStats(matches, PUUID);
-    expect(stats.get(1)).toEqual({ games: 2, wins: 1 });
-    expect(stats.get(2)).toEqual({ games: 1, wins: 1 });
-    expect(stats.has(5)).toBe(false);
+describe("aggregateChampionGames", () => {
+  it("counts recent games per champion for the player only", () => {
+    const games = aggregateChampionGames(matches, PUUID);
+    expect(games.get(1)).toBe(2);
+    expect(games.get(2)).toBe(1);
+    expect(games.has(5)).toBe(false);
   });
 
   it("returns an empty map when the player is absent", () => {
-    expect(aggregateChampionStats(matches, "ghost").size).toBe(0);
+    expect(aggregateChampionGames(matches, "ghost").size).toBe(0);
   });
 });
 
@@ -54,26 +52,23 @@ describe("buildScoutReport", () => {
     { championId: 3, championLevel: 4, championPoints: 200 },
   ];
 
-  it("ranks by mastery points and enriches with recent win rate", () => {
+  it("ranks by mastery points and annotates recent games", () => {
     const report = buildScoutReport(masteries, matches, PUUID, 3);
     expect(report.map((c) => c.championId)).toEqual([1, 2, 3]);
 
-    const [first] = report;
-    expect(first).toMatchObject({
+    expect(report[0]).toMatchObject({
       championId: 1,
       championKey: "1",
       masteryLevel: 7,
-      games: 2,
-      wins: 1,
-      winrate: 0.5,
+      masteryPoints: 1000,
+      recentGames: 2,
     });
-    expect(report[1]).toMatchObject({ championId: 2, winrate: 1 });
+    expect(report[1]).toMatchObject({ championId: 2, recentGames: 1 });
   });
 
-  it("marks champions with no recent games as null win rate", () => {
+  it("marks champions with no recent games as zero", () => {
     const report = buildScoutReport(masteries, matches, PUUID, 3);
-    const champ3 = report.find((c) => c.championId === 3);
-    expect(champ3).toMatchObject({ games: 0, wins: 0, winrate: null });
+    expect(report.find((c) => c.championId === 3)).toMatchObject({ recentGames: 0 });
   });
 
   it("limits the report to the requested number of champions", () => {

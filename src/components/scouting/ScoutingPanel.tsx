@@ -186,12 +186,7 @@ export function ScoutingPanel({
                         </p>
                         <p className="text-ink-faint text-[11px]">
                           {t("mastery")} {s.masteryLevel} · {s.masteryPoints.toLocaleString(locale)}{" "}
-                          ·{" "}
-                          {s.winrate === null
-                            ? "—"
-                            : `${s.wins}/${s.games} ${t("gamesLabel")} · ${Math.round(
-                                s.winrate * 100,
-                              )}%`}
+                          {t("masteryPoints")} · {s.recentGames} {t("recentGamesLabel")}
                         </p>
                       </div>
                       <button

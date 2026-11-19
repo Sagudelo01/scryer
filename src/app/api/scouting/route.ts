@@ -47,7 +47,6 @@ export async function GET(request: Request) {
       participants: match.info.participants.map((p) => ({
         puuid: p.puuid,
         championId: p.championId,
-        win: p.win,
       })),
     }));
 

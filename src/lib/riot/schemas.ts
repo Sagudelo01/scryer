@@ -18,17 +18,11 @@ export const matchIdsSchema = z.array(z.string());
 
 export const matchSchema = z.object({
   info: z.object({
-    queueId: z.number().optional(),
     participants: z.array(
       z.object({
         puuid: z.string(),
         championId: z.number(),
-        championName: z.string().optional(),
-        win: z.boolean(),
       }),
     ),
   }),
 });
-
-export type RiotAccount = z.infer<typeof accountSchema>;
-export type RiotMatch = z.infer<typeof matchSchema>;
