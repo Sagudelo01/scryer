@@ -20,6 +20,8 @@ export const championResponseSchema = z.object({
 export const gameResultSchema = z.object({
   bluePicks: z.array(z.string()),
   redPicks: z.array(z.string()),
+  blueBans: z.array(z.string()).default([]),
+  redBans: z.array(z.string()).default([]),
 });
 
 /** Shape of a single game's draft state kept in the client. */

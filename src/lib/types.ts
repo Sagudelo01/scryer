@@ -27,6 +27,8 @@ export interface DraftStep {
 export interface GameResult {
   bluePicks: string[];
   redPicks: string[];
+  blueBans: string[];
+  redBans: string[];
 }
 
 export interface DraftState {

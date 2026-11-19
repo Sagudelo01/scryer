@@ -119,17 +119,19 @@ describe("confirmGame", () => {
     expect(confirmGame(state)).toBe(state);
   });
 
-  it("records only picks, five per team, and starts the next game", () => {
+  it("records picks and bans, five per team, and starts the next game", () => {
     const state = confirmGame(playFullGame(createInitialState(), ids));
     expect(state.history).toHaveLength(1);
     expect(gameNumber(state)).toBe(2);
     expect(state.cursor).toBe(0);
 
-    const { bluePicks, redPicks } = state.history[0];
+    const { bluePicks, redPicks, blueBans, redBans } = state.history[0];
     expect(bluePicks).toEqual(["c7", "c10", "c11", "c18", "c19"]);
     expect(redPicks).toEqual(["c8", "c9", "c12", "c17", "c20"]);
+    expect(blueBans).toEqual(["c1", "c3", "c5", "c14", "c16"]);
+    expect(redBans).toEqual(["c2", "c4", "c6", "c13", "c15"]);
     expect(bluePicks).toHaveLength(5);
-    expect(redPicks).toHaveLength(5);
+    expect(redBans).toHaveLength(5);
   });
 });
 

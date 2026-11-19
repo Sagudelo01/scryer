@@ -1,6 +1,6 @@
 import { DRAFT_SEQUENCE } from "./draft-sequence";
 import { draftStateSchema } from "./schemas";
-import type { ActionType, DraftState, DraftStep, Team } from "./types";
+import type { ActionType, DraftState, DraftStep, GameResult, Team } from "./types";
 
 /** A fresh, empty draft with no completed games. */
 export function createInitialState(): DraftState {
@@ -76,18 +76,20 @@ export function resetGame(state: DraftState): DraftState {
 /** Lock the completed game's picks into series history and start the next game. */
 export function confirmGame(state: DraftState): DraftState {
   if (!isComplete(state)) return state;
-  const bluePicks: string[] = [];
-  const redPicks: string[] = [];
+  const result = { bluePicks: [], redPicks: [], blueBans: [], redBans: [] } as GameResult;
   DRAFT_SEQUENCE.forEach((step, index) => {
     const id = state.assignments[index];
-    if (!id || step.type !== "pick") return;
-    if (step.team === "blue") bluePicks.push(id);
-    else redPicks.push(id);
+    if (!id) return;
+    if (step.type === "pick") {
+      (step.team === "blue" ? result.bluePicks : result.redPicks).push(id);
+    } else {
+      (step.team === "blue" ? result.blueBans : result.redBans).push(id);
+    }
   });
   return {
     assignments: createInitialState().assignments,
     cursor: 0,
-    history: [...state.history, { bluePicks, redPicks }],
+    history: [...state.history, result],
   };
 }
 
