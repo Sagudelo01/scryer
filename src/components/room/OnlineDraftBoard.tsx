@@ -14,6 +14,7 @@ import { ScoutingPanel } from "@/components/scouting/ScoutingPanel";
 import { ChampionGrid } from "@/components/draft/ChampionGrid";
 import { TeamColumn } from "@/components/draft/TeamColumn";
 import { SeriesBar } from "@/components/draft/SeriesBar";
+import { ReserveTracker } from "@/components/draft/ReserveTracker";
 
 export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionData }) {
   const { version, champions } = data;
@@ -25,6 +26,10 @@ export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionD
   const state = room.room?.state ?? engine.createInitialState();
 
   const fearlessLocked = useMemo(() => engine.fearlessLocked(state), [state]);
+  const unavailable = useMemo(
+    () => new Set([...engine.fearlessLocked(state), ...engine.usedThisGame(state)]),
+    [state],
+  );
   const current = engine.currentStep(state);
   const isComplete = engine.isComplete(state);
   const isDrafting = room.room?.status === "drafting";
@@ -75,6 +80,8 @@ export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionD
         championsById={championsById}
         lockedCount={fearlessLocked.size}
       />
+
+      <ReserveTracker champions={champions} unavailable={unavailable} />
 
       <ScoutingPanel
         champions={champions}

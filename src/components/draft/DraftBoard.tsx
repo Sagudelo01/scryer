@@ -12,6 +12,7 @@ import { ScoutingPanel } from "@/components/scouting/ScoutingPanel";
 import { ChampionGrid } from "./ChampionGrid";
 import { TeamColumn } from "./TeamColumn";
 import { SeriesBar } from "./SeriesBar";
+import { ReserveTracker } from "./ReserveTracker";
 
 export function DraftBoard({ data }: { data: ChampionData }) {
   const { version, champions } = data;
@@ -20,6 +21,10 @@ export function DraftBoard({ data }: { data: ChampionData }) {
   const bans = useBanTargets();
 
   const championsById = useMemo(() => new Map(champions.map((c) => [c.id, c])), [champions]);
+  const unavailable = useMemo(
+    () => new Set([...draft.fearlessLocked, ...draft.usedThisGame]),
+    [draft.fearlessLocked, draft.usedThisGame],
+  );
 
   const current = draft.currentStep;
   const turnLabel = current
@@ -51,6 +56,8 @@ export function DraftBoard({ data }: { data: ChampionData }) {
         championsById={championsById}
         lockedCount={draft.fearlessLocked.size}
       />
+
+      <ReserveTracker champions={champions} unavailable={unavailable} />
 
       <ScoutingPanel
         champions={champions}

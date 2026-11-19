@@ -43,6 +43,7 @@ const en = {
     "No champions are locked yet. Picks from each completed game become unavailable for the rest of the series.",
   seriesHistory: "Series history",
   championsLocked: "champions locked",
+  reserveTitle: "Pick reserve by role",
 
   searchChampion: "Search champion",
   noMatches: "No champions match your search.",
@@ -163,6 +164,7 @@ const es: Dictionary = {
     "Aún no hay campeones bloqueados. Los picks de cada juego completado quedan inhabilitados por el resto de la serie.",
   seriesHistory: "Historial de la serie",
   championsLocked: "campeones bloqueados",
+  reserveTitle: "Reserva de picks por rol",
 
   searchChampion: "Buscar campeón",
   noMatches: "Ningún campeón coincide con tu búsqueda.",
