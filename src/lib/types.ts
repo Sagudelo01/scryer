@@ -37,3 +37,17 @@ export interface DraftState {
   /** Picks from previous games of the series, locked by the Fearless rule. */
   history: GameResult[];
 }
+
+export type Role = "blue" | "red" | "spectator";
+
+export type RoomStatus = "waiting" | "drafting" | "complete";
+
+export interface Room {
+  id: string;
+  code: string;
+  status: RoomStatus;
+  blueCaptain: string | null;
+  redCaptain: string | null;
+  state: DraftState;
+  updatedAt: string;
+}

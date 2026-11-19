@@ -36,5 +36,17 @@ export const draftStateSchema = z.object({
   history: z.array(gameResultSchema),
 });
 
+/** Raw `rooms` row as returned by Supabase (snake_case columns). */
+export const roomRowSchema = z.object({
+  id: z.string(),
+  code: z.string(),
+  status: z.enum(["waiting", "drafting", "complete"]),
+  blue_captain: z.string().nullable(),
+  red_captain: z.string().nullable(),
+  state: draftStateSchema,
+  updated_at: z.string(),
+});
+
 export type RawChampion = z.infer<typeof rawChampionSchema>;
 export type DraftStateInput = z.infer<typeof draftStateSchema>;
+export type RoomRow = z.infer<typeof roomRowSchema>;
