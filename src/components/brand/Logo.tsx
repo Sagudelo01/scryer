@@ -1,11 +1,62 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 interface LogoProps {
   className?: string;
   withWordmark?: boolean;
 }
 
 export function LogoMark({ className }: { className?: string }) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const eyeRef = useRef<SVGGElement>(null);
+  const pupilRef = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    const eye = eyeRef.current;
+    const pupil = pupilRef.current;
+    if (!svg || !eye || !pupil) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduce.matches) return;
+
+    let frame = 0;
+    const onMove = (event: PointerEvent) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const rect = svg.getBoundingClientRect();
+        const dx = event.clientX - (rect.left + rect.width / 2);
+        const dy = event.clientY - (rect.top + rect.height / 2);
+        const dist = Math.hypot(dx, dy) || 1;
+        const reach = (Math.min(dist, 160) / 160) * 2.4;
+        pupil.style.transform = `translate(${(dx / dist) * reach}px, ${(dy / dist) * reach}px)`;
+      });
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+
+    let blinkTimer: ReturnType<typeof setTimeout>;
+    let openTimer: ReturnType<typeof setTimeout>;
+    const blink = () => {
+      eye.style.transform = "scaleY(0.1)";
+      openTimer = setTimeout(() => {
+        eye.style.transform = "scaleY(1)";
+      }, 95);
+      blinkTimer = setTimeout(blink, 2800 + Math.random() * 4200);
+    };
+    blinkTimer = setTimeout(blink, 2000 + Math.random() * 3000);
+
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      cancelAnimationFrame(frame);
+      clearTimeout(blinkTimer);
+      clearTimeout(openTimer);
+    };
+  }, []);
+
   return (
     <svg
+      ref={svgRef}
       viewBox="0 0 48 48"
       className={className}
       fill="none"
@@ -34,9 +85,20 @@ export function LogoMark({ className }: { className?: string }) {
         strokeWidth="1.6"
         fill="rgba(5,9,18,0.6)"
       />
-      <circle cx="24" cy="24" r="6.5" fill="url(#scryer-iris)" />
-      <circle cx="24" cy="24" r="2.6" fill="#04060d" />
-      <circle cx="21.8" cy="21.8" r="1.1" fill="#f0e6d2" />
+      <g
+        ref={eyeRef}
+        style={{
+          transformBox: "fill-box",
+          transformOrigin: "center",
+          transition: "transform 95ms ease",
+        }}
+      >
+        <circle cx="24" cy="24" r="6.5" fill="url(#scryer-iris)" />
+        <g ref={pupilRef} style={{ transition: "transform 140ms ease-out" }}>
+          <circle cx="24" cy="24" r="2.6" fill="#04060d" />
+          <circle cx="21.8" cy="21.8" r="1.1" fill="#f0e6d2" />
+        </g>
+      </g>
     </svg>
   );
 }
