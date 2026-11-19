@@ -31,18 +31,16 @@ behind the project: reading the draft before it happens.
 
 ## Screenshots
 
-Add images under `docs/` and they will render here. Suggested captures:
+![Landing](docs/landing.jpg)
 
-- `docs/landing.png` — the landing page.
-- `docs/draft-board.png` — the local draft board partway through a game.
-- `docs/live-room.png` — a live room showing the room code, role and connection.
-- `docs/scouting.png` — the scouting panel open with ban targets highlighted in
-  the grid.
+![Draft board](docs/draft-board.jpg)
 
-<!-- ![Landing](docs/landing.png) -->
-<!-- ![Draft board](docs/draft-board.png) -->
-<!-- ![Live room](docs/live-room.png) -->
-<!-- ![Scouting](docs/scouting.png) -->
+![Live room](docs/live-room.jpg)
+
+![Scouting panel](docs/scouting.jpg)
+
+The scouting image shows the panel; the champion list and ban-target highlights
+appear once a `RIOT_API_KEY` is configured.
 
 ## Tech stack
 
