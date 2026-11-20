@@ -96,60 +96,70 @@ body {
   background-attachment: fixed;
 }
 
-/* Ambient glow layer: same hues as the base, now clearly drifting and breathing.
-   Kept separate so the base gradient stays fixed and OBS can hide it. */
-body::before {
-  content: "";
+/* Underwater waves background (markup lives in WavesBackground). Soft, slow
+   layers in the palette, horizontal currents with a gentle vertical sway and a
+   drifting surface light. Transform and opacity only. */
+.waves-bg {
   position: fixed;
-  inset: -18%;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image:
-    radial-gradient(1000px circle at 15% -8%, rgba(10, 200, 185, 0.22), transparent 46%),
-    radial-gradient(1000px circle at 85% 2%, rgba(74, 140, 255, 0.18), transparent 46%);
-  animation: bg-drift 17s ease-in-out infinite alternate;
+  overflow: hidden;
+}
+.waves-bg svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.wave-scroll {
+  animation-name: wave-x;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+.wave-bob {
+  animation-name: wave-bob;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  will-change: transform;
+}
+.wave-light {
+  animation-name: light-pan;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
   will-change: transform, opacity;
 }
 
-/* Faint grid that drifts steadily, a second subtle layer of motion. */
-body::after {
-  content: "";
-  position: fixed;
-  inset: -6%;
-  z-index: -1;
-  pointer-events: none;
-  background-image:
-    linear-gradient(to right, rgba(138, 152, 180, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(138, 152, 180, 0.05) 1px, transparent 1px);
-  background-size: 46px 46px;
-  animation: grid-drift 19s linear infinite;
-  will-change: transform;
+@keyframes wave-x {
+  to {
+    transform: translateX(-1440px);
+  }
 }
-
-@keyframes bg-drift {
+@keyframes wave-bob {
   from {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 1;
+    transform: translateY(0);
   }
   to {
-    transform: translate3d(13%, 9%, 0) scale(1.1);
-    opacity: 0.62;
+    transform: translateY(14px);
+  }
+}
+@keyframes light-pan {
+  from {
+    transform: translateX(-70px);
+    opacity: 0.05;
+  }
+  to {
+    transform: translateX(70px);
+    opacity: 0.12;
   }
 }
 
-@keyframes grid-drift {
-  to {
-    transform: translate3d(46px, 46px, 0);
-  }
-}
-
-/* Pause ambient motion when the tab is hidden; hide it on plain overlays. */
-html[data-tab-hidden] body::before,
-html[data-tab-hidden] body::after {
+html[data-tab-hidden] .waves-bg * {
   animation-play-state: paused;
 }
-html[data-bg-plain] body::before,
-html[data-bg-plain] body::after {
+html[data-bg-plain] .waves-bg {
   display: none;
 }
 
