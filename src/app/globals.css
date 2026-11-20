@@ -101,22 +101,24 @@ body {
 body::before {
   content: "";
   position: fixed;
-  inset: -8%;
+  inset: -14%;
   z-index: -1;
   pointer-events: none;
   background-image:
     radial-gradient(900px circle at 15% -10%, rgba(10, 200, 185, 0.1), transparent 45%),
     radial-gradient(900px circle at 85% 0%, rgba(74, 140, 255, 0.08), transparent 45%);
-  animation: bg-drift 46s ease-in-out infinite alternate;
-  will-change: transform;
+  animation: bg-drift 22s ease-in-out infinite alternate;
+  will-change: transform, opacity;
 }
 
 @keyframes bg-drift {
   from {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
   }
   to {
-    transform: translate3d(1.4%, 1%, 0);
+    transform: translate3d(4%, 2.6%, 0) scale(1.07);
+    opacity: 0.72;
   }
 }
 
