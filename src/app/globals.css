@@ -96,19 +96,34 @@ body {
   background-attachment: fixed;
 }
 
-/* Ambient glow layer: same colors and shapes as before, drifting very slowly.
+/* Ambient glow layer: same hues as the base, now clearly drifting and breathing.
    Kept separate so the base gradient stays fixed and OBS can hide it. */
 body::before {
   content: "";
   position: fixed;
-  inset: -14%;
+  inset: -18%;
   z-index: -1;
   pointer-events: none;
   background-image:
-    radial-gradient(900px circle at 15% -10%, rgba(10, 200, 185, 0.1), transparent 45%),
-    radial-gradient(900px circle at 85% 0%, rgba(74, 140, 255, 0.08), transparent 45%);
-  animation: bg-drift 22s ease-in-out infinite alternate;
+    radial-gradient(1000px circle at 15% -8%, rgba(10, 200, 185, 0.22), transparent 46%),
+    radial-gradient(1000px circle at 85% 2%, rgba(74, 140, 255, 0.18), transparent 46%);
+  animation: bg-drift 17s ease-in-out infinite alternate;
   will-change: transform, opacity;
+}
+
+/* Faint grid that drifts steadily, a second subtle layer of motion. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -6%;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(138, 152, 180, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(138, 152, 180, 0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+  animation: grid-drift 19s linear infinite;
+  will-change: transform;
 }
 
 @keyframes bg-drift {
@@ -117,16 +132,24 @@ body::before {
     opacity: 1;
   }
   to {
-    transform: translate3d(4%, 2.6%, 0) scale(1.07);
-    opacity: 0.72;
+    transform: translate3d(13%, 9%, 0) scale(1.1);
+    opacity: 0.62;
   }
 }
 
-/* Pause the drift when the tab is hidden, and hide the glow on plain overlays. */
-html[data-tab-hidden] body::before {
+@keyframes grid-drift {
+  to {
+    transform: translate3d(46px, 46px, 0);
+  }
+}
+
+/* Pause ambient motion when the tab is hidden; hide it on plain overlays. */
+html[data-tab-hidden] body::before,
+html[data-tab-hidden] body::after {
   animation-play-state: paused;
 }
-html[data-bg-plain] body::before {
+html[data-bg-plain] body::before,
+html[data-bg-plain] body::after {
   display: none;
 }
 
