@@ -96,70 +96,83 @@ body {
   background-attachment: fixed;
 }
 
-/* Underwater waves background (markup lives in WavesBackground). Soft, slow
-   layers in the palette, horizontal currents with a gentle vertical sway and a
-   drifting surface light. Transform and opacity only. */
-.waves-bg {
+/* Frutiger Aero ambient background (markup in AmbientBackground): a soft
+   aquatic tint, large translucent bubbles with luminous edges that drift and
+   scale, and small bokeh lights that float and pulse. Transform/opacity only. */
+.ambient-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
 }
-.waves-bg svg {
-  display: block;
-  height: 100%;
-  width: 100%;
+.ambient-tint {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(10, 200, 185, 0.1), transparent 70%),
+    radial-gradient(45% 40% at 85% 100%, rgba(74, 140, 255, 0.08), transparent 70%);
 }
-.wave-scroll {
-  animation-name: wave-x;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  will-change: transform;
-}
-.wave-bob {
-  animation-name: wave-bob;
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 36% 30%,
+    rgba(255, 255, 255, 0.06),
+    rgba(var(--c), 0.07) 46%,
+    rgba(var(--c), 0) 64%
+  );
+  border: 1.5px solid rgba(var(--c), 0.22);
+  box-shadow:
+    0 0 60px rgba(var(--c), 0.14),
+    inset 0 0 50px rgba(var(--c), 0.08);
+  animation-name: bubble-drift;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;
-  will-change: transform;
+  will-change: transform, opacity;
 }
-.wave-light {
-  animation-name: light-pan;
+.bokeh {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.85),
+    rgba(var(--c), 0.5) 35%,
+    rgba(var(--c), 0) 70%
+  );
+  animation-name: bokeh-float;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;
   will-change: transform, opacity;
 }
 
-@keyframes wave-x {
+@keyframes bubble-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.65;
+  }
   to {
-    transform: translateX(-1440px);
+    transform: translate3d(var(--dx), var(--dy), 0) scale(var(--s));
+    opacity: 1;
   }
 }
-@keyframes wave-bob {
+@keyframes bokeh-float {
   from {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0) scale(0.8);
+    opacity: 0.2;
   }
   to {
-    transform: translateY(14px);
-  }
-}
-@keyframes light-pan {
-  from {
-    transform: translateX(-70px);
-    opacity: 0.05;
-  }
-  to {
-    transform: translateX(70px);
-    opacity: 0.12;
+    transform: translate3d(var(--dx), var(--dy), 0) scale(1.1);
+    opacity: 0.75;
   }
 }
 
-html[data-tab-hidden] .waves-bg * {
+html[data-tab-hidden] .ambient-bg * {
   animation-play-state: paused;
 }
-html[data-bg-plain] .waves-bg {
+html[data-bg-plain] .ambient-bg {
   display: none;
 }
 
