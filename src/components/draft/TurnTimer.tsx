@@ -39,7 +39,7 @@ export function TurnTimer({ turnKey, active }: TurnTimerProps) {
         value={seconds}
         onChange={(e) => setSeconds(Number(e.target.value))}
         aria-label={t("turnTimer")}
-        className="bg-void/70 text-ink-dim rounded px-1 py-0.5 text-xs outline-none"
+        className="bg-surface text-ink-dim rounded px-1 py-0.5 text-xs"
       >
         {DURATIONS.map((d) => (
           <option key={d} value={d} className="bg-surface">

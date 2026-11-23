@@ -63,7 +63,7 @@ export function ChampionGrid({
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t("searchChampion")}
             aria-label={t("searchChampion")}
-            className="border-line bg-void/70 text-ink placeholder:text-ink-faint focus:border-cyan/60 w-full rounded-md border py-2.5 pr-3 pl-9 text-sm transition-colors outline-none"
+            className="border-line bg-surface text-ink placeholder:text-ink-dim focus:border-cyan/60 w-full rounded-md border py-2.5 pr-3 pl-9 text-sm transition-colors"
           />
         </div>
 
@@ -100,7 +100,7 @@ export function ChampionGrid({
               } ${disabled && !unavailable ? "cursor-not-allowed opacity-60" : ""}`}
             >
               <span
-                className={`relative aspect-square w-full overflow-hidden rounded-md border transition-all duration-150 ${
+                className={`bg-surface relative aspect-square w-full overflow-hidden rounded-md border transition-all duration-150 ${
                   marked && !unavailable ? "ring-red-side/80 ring-2" : ""
                 } ${
                   unavailable
@@ -158,7 +158,7 @@ export function ChampionGrid({
           );
         })}
         {filtered.length === 0 && (
-          <p className="text-ink-faint col-span-full py-10 text-center text-sm">{t("noMatches")}</p>
+          <p className="text-ink-dim col-span-full py-10 text-center text-sm">{t("noMatches")}</p>
         )}
       </div>
     </div>
@@ -180,8 +180,8 @@ function RoleChip({
       onClick={onClick}
       className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
         active
-          ? "border-cyan/70 bg-cyan/15 text-cyan"
-          : "border-line text-ink-dim hover:border-ink-faint hover:text-ink"
+          ? "border-cyan/70 bg-cyan/20 text-cyan"
+          : "border-line bg-surface text-ink-dim hover:border-ink-faint hover:bg-surface-2 hover:text-ink"
       }`}
     >
       {label}

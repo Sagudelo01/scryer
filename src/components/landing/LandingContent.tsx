@@ -25,7 +25,7 @@ export function LandingContent() {
           <LanguageToggle />
           <Link
             href="/draft"
-            className="border-gold/50 bg-gold/10 text-gold hover:bg-gold/20 rounded-md border px-4 py-2 text-sm font-semibold tracking-wide transition-colors"
+            className="border-gold/60 bg-surface text-gold hover:border-gold hover:bg-surface-2 rounded-md border px-4 py-2 text-sm font-semibold tracking-wide transition-colors"
           >
             {t("openDraft")}
           </Link>
@@ -53,13 +53,13 @@ export function LandingContent() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/draft"
-                className="border-line text-ink-dim hover:border-ink-faint hover:text-ink rounded-md border px-6 py-3 text-base font-medium transition-colors"
+                className="border-line bg-surface text-ink hover:border-ink-faint hover:bg-surface-2 rounded-md border px-6 py-3 text-base font-medium transition-colors"
               >
                 {t("localDraft")}
               </Link>
               <a
                 href="#how-it-works"
-                className="text-ink-dim hover:text-ink px-4 py-3 text-base font-medium transition-colors"
+                className="border-line bg-surface text-ink-dim hover:border-ink-faint hover:text-ink rounded-md border px-6 py-3 text-base font-medium transition-colors"
               >
                 {t("howItWorks")}
               </a>

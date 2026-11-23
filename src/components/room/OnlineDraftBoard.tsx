@@ -155,7 +155,7 @@ export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionD
                 <button
                   type="button"
                   onClick={room.confirmGame}
-                  className="animate-pop border-gold bg-gold/20 text-gold-bright hover:bg-gold/30 rounded border px-4 py-1.5 text-xs font-bold tracking-wide transition-colors"
+                  className="animate-pop border-gold bg-surface text-gold-bright hover:border-gold-bright hover:bg-surface-2 rounded border px-4 py-1.5 text-xs font-bold tracking-wide transition-colors"
                 >
                   {t("confirmGame")} →
                 </button>
@@ -203,7 +203,7 @@ export function OnlineDraftBoard({ code, data }: { code: string; data: ChampionD
         />
       </div>
 
-      <footer className="border-line text-ink-faint flex flex-wrap items-center justify-between gap-3 border-t pt-4 text-xs">
+      <footer className="border-line text-ink-dim flex flex-wrap items-center justify-between gap-3 border-t pt-4 text-xs">
         <p>
           {t("patch")} {version} · {t("footerData")}
         </p>
@@ -325,7 +325,7 @@ function Notice({ title, action }: { title: string; action?: { href: string; lab
       {action && (
         <Link
           href={action.href}
-          className="border-gold/50 bg-gold/10 text-gold hover:bg-gold/20 rounded-md border px-4 py-2 text-sm font-semibold transition-colors"
+          className="border-gold/60 bg-surface text-gold hover:border-gold hover:bg-surface-2 rounded-md border px-4 py-2 text-sm font-semibold transition-colors"
         >
           {action.label}
         </Link>

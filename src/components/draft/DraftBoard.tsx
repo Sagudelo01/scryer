@@ -123,7 +123,7 @@ export function DraftBoard({ data }: { data: ChampionData }) {
             <button
               type="button"
               onClick={draft.confirmGame}
-              className="animate-pop border-gold bg-gold/20 text-gold-bright hover:bg-gold/30 rounded border px-4 py-1.5 text-xs font-bold tracking-wide transition-all active:scale-[0.97]"
+              className="animate-pop border-gold bg-surface text-gold-bright hover:border-gold-bright hover:bg-surface-2 rounded border px-4 py-1.5 text-xs font-bold tracking-wide transition-all active:scale-[0.97]"
             >
               {t("confirmGame")} →
             </button>
@@ -163,7 +163,7 @@ export function DraftBoard({ data }: { data: ChampionData }) {
         />
       </div>
 
-      <footer className="border-line text-ink-faint flex flex-wrap items-center justify-between gap-3 border-t pt-4 text-xs">
+      <footer className="border-line text-ink-dim flex flex-wrap items-center justify-between gap-3 border-t pt-4 text-xs">
         <p>
           {t("patch")} {version} · {t("footerData")}
         </p>

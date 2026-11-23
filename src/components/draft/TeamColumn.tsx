@@ -52,7 +52,7 @@ export function TeamColumn({
           return (
             <div
               key={slot}
-              className={`bg-void/60 relative aspect-square w-full overflow-hidden rounded border ${
+              className={`bg-surface relative aspect-square w-full overflow-hidden rounded border ${
                 active ? `animate-glow ${activeRing}` : "border-line"
               }`}
               title={champion ? `${t("ban")}: ${name}` : t("ban")}
@@ -99,14 +99,14 @@ export function TeamColumn({
           return (
             <div
               key={slot}
-              className={`relative flex h-16 items-center gap-3 overflow-hidden rounded-md border bg-gradient-to-r transition-all ${
+              className={`bg-surface relative flex h-16 items-center gap-3 overflow-hidden rounded-md border bg-gradient-to-r transition-all ${
                 align === "right" ? "flex-row-reverse" : ""
               } ${
                 active
                   ? `animate-glow ${activeRing}`
                   : champion
                     ? `${border} ${isBlue ? "from-blue-side/15" : "from-red-side/15"} to-transparent`
-                    : "border-line border-dashed"
+                    : "border-line"
               }`}
             >
               {champion ? (
@@ -123,14 +123,14 @@ export function TeamColumn({
                   </div>
                   <div className={`min-w-0 flex-1 px-1 ${align === "right" ? "text-right" : ""}`}>
                     <p className="font-display text-ink truncate text-sm font-semibold">{name}</p>
-                    <p className="text-ink-faint truncate text-[11px]">
+                    <p className="text-ink-dim truncate text-[11px]">
                       {champion.tags[0] ? roleLabel(locale, champion.tags[0]) : ""}
                     </p>
                   </div>
                 </>
               ) : (
                 <div
-                  className={`text-ink-faint flex w-full items-center px-3 text-xs ${
+                  className={`text-ink-dim flex w-full items-center px-3 text-xs ${
                     align === "right" ? "justify-end" : ""
                   }`}
                 >

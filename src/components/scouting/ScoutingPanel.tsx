@@ -111,13 +111,13 @@ export function ScoutingPanel({
                 onKeyDown={(e) => e.key === "Enter" && !loading && scout()}
                 placeholder={t("riotIdPlaceholder")}
                 aria-label={t("riotIdPlaceholder")}
-                className="border-line bg-void/70 text-ink placeholder:text-ink-faint focus:border-cyan/60 min-w-[200px] flex-1 rounded-md border px-3 py-2 text-sm outline-none"
+                className="border-line bg-surface text-ink placeholder:text-ink-dim focus:border-cyan/60 min-w-[200px] flex-1 rounded-md border px-3 py-2 text-sm"
               />
               <select
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
                 aria-label={t("regionLabel")}
-                className="border-line bg-void/70 text-ink focus:border-cyan/60 rounded-md border px-3 py-2 text-sm outline-none"
+                className="border-line bg-surface text-ink focus:border-cyan/60 rounded-md border px-3 py-2 text-sm"
               >
                 {RIOT_REGIONS.map((r) => (
                   <option key={r.id} value={r.id} className="bg-surface">
@@ -129,7 +129,7 @@ export function ScoutingPanel({
                 type="button"
                 onClick={scout}
                 disabled={loading}
-                className="border-gold bg-gold/20 text-gold-bright hover:bg-gold/30 rounded-md border px-4 py-2 text-sm font-semibold transition-all active:scale-[0.98] disabled:opacity-60"
+                className="border-gold bg-surface text-gold-bright hover:border-gold-bright hover:bg-surface-2 rounded-md border px-4 py-2 text-sm font-semibold transition-all active:scale-[0.98] disabled:opacity-60"
               >
                 {loading ? t("scoutingLoading") : t("scout")}
               </button>

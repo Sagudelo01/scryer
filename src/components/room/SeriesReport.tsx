@@ -249,7 +249,7 @@ function Notice({ title, href, label }: { title: string; href: string; label: st
       <p className="text-ink-dim">{title}</p>
       <Link
         href={href}
-        className="border-gold/50 bg-gold/10 text-gold hover:bg-gold/20 rounded-md border px-4 py-2 text-sm font-semibold transition-colors"
+        className="border-gold/60 bg-surface text-gold hover:border-gold hover:bg-surface-2 rounded-md border px-4 py-2 text-sm font-semibold transition-colors"
       >
         {label}
       </Link>

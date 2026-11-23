@@ -48,7 +48,7 @@ export function OnlineEntry() {
         type="button"
         onClick={createRoom}
         disabled={creating}
-        className="group border-gold bg-gold/20 font-display text-gold-bright hover:bg-gold/30 rounded-md border px-6 py-3 text-base font-bold tracking-wide transition-all hover:shadow-[0_8px_30px_-8px_rgba(200,170,110,0.7)] active:scale-[0.98] disabled:opacity-60"
+        className="group border-gold bg-surface text-gold-bright hover:border-gold-bright hover:bg-surface-2 font-display rounded-md border px-6 py-3 text-base font-bold tracking-wide transition-all hover:shadow-[0_8px_30px_-8px_rgba(200,170,110,0.45)] active:scale-[0.98] disabled:opacity-60"
       >
         {creating ? t("creatingRoom") : t("createRoom")}
         {!creating && (
@@ -66,12 +66,12 @@ export function OnlineEntry() {
           placeholder={t("roomCodePlaceholder")}
           aria-label={t("roomCodePlaceholder")}
           maxLength={6}
-          className="border-line bg-void/70 text-ink placeholder:text-ink-faint focus:border-cyan/60 w-full rounded-md border px-3 py-2.5 text-sm tracking-widest uppercase outline-none"
+          className="border-line bg-surface text-ink placeholder:text-ink-dim focus:border-cyan/60 w-full rounded-md border px-3 py-2.5 text-sm tracking-widest uppercase"
         />
         <button
           type="button"
           onClick={join}
-          className="border-line text-ink hover:border-ink-faint rounded-md border px-5 py-2.5 text-sm font-medium transition-colors"
+          className="border-line bg-surface text-ink hover:border-ink-faint hover:bg-surface-2 rounded-md border px-5 py-2.5 text-sm font-medium transition-colors"
         >
           {t("joinRoom")}
         </button>
