@@ -96,99 +96,79 @@ body {
   background-attachment: fixed;
 }
 
-/* Vista-style aurora composition (markup in AmbientBackground), redrawn in the
-   Scryer palette. Full-screen SVG; only transform/opacity is animated. */
+/* Animated dark gradient mesh (markup in AmbientBackground): near-black base,
+   three large blurred colour fields that drift, a faint diagonal diamond grid
+   with an occasional cyan sweep, and a central vignette for legibility.
+   Transform/opacity only. */
 .ambient-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
+  background: #04060d;
 }
-.ambient-bg svg {
+.mesh-blob {
   position: absolute;
-  inset: 0;
-  display: block;
-  height: 100%;
-  width: 100%;
-}
-
-.au-anim {
+  border-radius: 50%;
+  filter: blur(90px);
+  mix-blend-mode: screen;
+  will-change: transform;
+  animation-name: mesh-drift;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;
-  transform-box: fill-box;
+}
+.mesh-grid {
+  position: absolute;
+  inset: -8%;
+  opacity: 0.06;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(130, 200, 210, 0.9) 0 1px, transparent 1px 46px),
+    repeating-linear-gradient(-45deg, rgba(130, 200, 210, 0.9) 0 1px, transparent 1px 46px);
+}
+.mesh-sweep {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  height: 140%;
+  width: 55%;
+  background: linear-gradient(105deg, transparent, rgba(10, 200, 185, 0.16), transparent);
+  filter: blur(32px);
+  mix-blend-mode: screen;
   will-change: transform, opacity;
+  animation: mesh-sweep 14s ease-in-out infinite;
 }
-.au-beam {
-  animation-name: au-beam;
-  transform-origin: 50% 0%;
-}
-.au-fan {
-  animation-name: au-fan;
-  transform-origin: 0% 100%;
-}
-.au-band {
-  animation-name: au-band;
-  transform-origin: 50% 50%;
-}
-.au-arc {
-  animation-name: au-arc;
-  transform-origin: 100% 100%;
-}
-.au-flash {
-  animation-name: au-flash;
-  transform-origin: 50% 50%;
+.mesh-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(72% 56% at 50% 36%, rgba(3, 5, 11, 0.58), rgba(3, 5, 11, 0) 72%),
+    radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(2, 4, 9, 0.6));
 }
 
-@keyframes au-beam {
+@keyframes mesh-drift {
   from {
-    transform: translateX(-56px);
-    opacity: 0.5;
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(56px);
-    opacity: 1;
+    transform: translate3d(var(--dx), var(--dy), 0);
   }
 }
-@keyframes au-fan {
-  from {
-    transform: translateY(0) skewX(0deg);
-    opacity: 0.66;
+@keyframes mesh-sweep {
+  0% {
+    transform: translateX(-60%);
+    opacity: 0;
   }
-  to {
-    transform: translateY(-15px) skewX(3.1deg);
-    opacity: 1;
+  35% {
+    opacity: 0.85;
   }
-}
-@keyframes au-band {
-  from {
-    transform: translateY(0) scaleY(1);
-    opacity: 0.62;
+  65% {
+    opacity: 0.6;
   }
-  to {
-    transform: translateY(14px) scaleY(1.095);
-    opacity: 1;
-  }
-}
-@keyframes au-arc {
-  from {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0.58;
-  }
-  to {
-    transform: translateY(-19px) rotate(2.3deg);
-    opacity: 1;
-  }
-}
-@keyframes au-flash {
-  from {
-    transform: scale(0.84);
-    opacity: 0.36;
-  }
-  to {
-    transform: scale(1.22);
-    opacity: 1;
+  100% {
+    transform: translateX(250%);
+    opacity: 0;
   }
 }
 
