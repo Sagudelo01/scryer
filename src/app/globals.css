@@ -143,11 +143,11 @@ body {
 
 @keyframes au-beam {
   from {
-    transform: translateX(-42px);
+    transform: translateX(-56px);
     opacity: 0.5;
   }
   to {
-    transform: translateX(42px);
+    transform: translateX(56px);
     opacity: 1;
   }
 }
@@ -157,7 +157,7 @@ body {
     opacity: 0.66;
   }
   to {
-    transform: translateY(-11px) skewX(2.3deg);
+    transform: translateY(-15px) skewX(3.1deg);
     opacity: 1;
   }
 }
@@ -167,7 +167,7 @@ body {
     opacity: 0.62;
   }
   to {
-    transform: translateY(10px) scaleY(1.07);
+    transform: translateY(14px) scaleY(1.095);
     opacity: 1;
   }
 }
@@ -177,17 +177,17 @@ body {
     opacity: 0.58;
   }
   to {
-    transform: translateY(-14px) rotate(1.7deg);
+    transform: translateY(-19px) rotate(2.3deg);
     opacity: 1;
   }
 }
 @keyframes au-flash {
   from {
-    transform: scale(0.85);
-    opacity: 0.45;
+    transform: scale(0.84);
+    opacity: 0.36;
   }
   to {
-    transform: scale(1.2);
+    transform: scale(1.22);
     opacity: 1;
   }
 }

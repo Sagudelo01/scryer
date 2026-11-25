@@ -58,7 +58,7 @@ interface Glow {
 
 // Soft upper glows (no straight edges); drift slowly. Keep the centre faint.
 const GLOWS: Glow[] = [
-  { cx: 200, cy: 110, rx: 520, ry: 430, fill: "url(#au-glow-c)", op: 0.4, dur: "22s", delay: "0s" },
+  { cx: 200, cy: 110, rx: 520, ry: 430, fill: "url(#au-glow-c)", op: 0.4, dur: "17s", delay: "0s" },
   {
     cx: 1270,
     cy: 150,
@@ -66,7 +66,7 @@ const GLOWS: Glow[] = [
     ry: 450,
     fill: "url(#au-glow-t)",
     op: 0.4,
-    dur: "26s",
+    dur: "20s",
     delay: "-9s",
   },
   {
@@ -76,7 +76,7 @@ const GLOWS: Glow[] = [
     ry: 320,
     fill: "url(#au-glow-c)",
     op: 0.14,
-    dur: "30s",
+    dur: "23s",
     delay: "-15s",
   },
 ];
@@ -178,7 +178,7 @@ export function AmbientBackground() {
         <rect width={W} height={H} fill="url(#au-center-dark)" />
 
         {/* Bottom bands */}
-        <g className="au-anim au-band" style={{ ...anim("22s", "0s"), mixBlendMode: "screen" }}>
+        <g className="au-anim au-band" style={{ ...anim("17s", "0s"), mixBlendMode: "screen" }}>
           {BANDS.map((d, i) => (
             <path
               key={`bw${i}`}
@@ -218,7 +218,7 @@ export function AmbientBackground() {
         <g
           className="au-anim au-fan"
           mask="url(#au-fan-mask)"
-          style={{ ...anim("26s", "-6s"), mixBlendMode: "screen" }}
+          style={{ ...anim("20s", "-6s"), mixBlendMode: "screen" }}
         >
           <g filter="url(#au-blur-soft)">
             {fan.map((d, i) => (
@@ -237,7 +237,7 @@ export function AmbientBackground() {
         <g
           className="au-anim au-arc"
           mask="url(#au-arc-mask)"
-          style={{ ...anim("28s", "-15s"), mixBlendMode: "screen" }}
+          style={{ ...anim("22s", "-15s"), mixBlendMode: "screen" }}
         >
           <g filter="url(#au-blur-soft)">
             {arc.map((d, i) => (
@@ -253,7 +253,7 @@ export function AmbientBackground() {
         </g>
 
         {/* Crossing flash */}
-        <g className="au-anim au-flash" style={{ ...anim("14s", "0s"), mixBlendMode: "screen" }}>
+        <g className="au-anim au-flash" style={{ ...anim("11s", "0s"), mixBlendMode: "screen" }}>
           <ellipse
             cx={760}
             cy={752}
