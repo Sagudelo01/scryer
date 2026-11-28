@@ -80,7 +80,11 @@ export function ChampionGrid({
         </div>
       </div>
 
-      <div className="thin-scroll -mr-1 grid h-[min(60vh,620px)] auto-rows-min grid-cols-3 gap-3 overflow-y-auto pr-1 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6">
+      <div
+        role="group"
+        aria-label={t("searchChampion")}
+        className="thin-scroll -mr-1 grid h-[min(60vh,620px)] auto-rows-min grid-cols-3 gap-3 overflow-y-auto pr-1 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6"
+      >
         {filtered.map((champion) => {
           const name = championName(champion, locale);
           const unavailable = isUnavailable(champion.id);
@@ -93,6 +97,7 @@ export function ChampionGrid({
               disabled={unavailable || disabled}
               onClick={() => onSelect(champion.id)}
               title={fearless ? `${name} — ${t("usedEarlier")}` : name}
+              aria-label={fearless ? `${name} — ${t("usedEarlier")}` : name}
               className={`group flex flex-col items-center gap-1.5 rounded-lg p-1.5 transition-colors ${
                 unavailable
                   ? "cursor-not-allowed"
@@ -178,6 +183,7 @@ function RoleChip({
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={active}
       className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
         active
           ? "border-cyan/70 bg-cyan/20 text-cyan"

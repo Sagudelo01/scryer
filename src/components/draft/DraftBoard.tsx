@@ -11,7 +11,8 @@ import { LanguageToggle } from "@/components/i18n/LanguageToggle";
 import { HelpButton } from "@/components/ui/HelpButton";
 import { ScoutingPanel } from "@/components/scouting/ScoutingPanel";
 import { ChampionGrid } from "./ChampionGrid";
-import { TeamColumn } from "./TeamColumn";
+import { BansRow } from "./BansRow";
+import { PicksColumn } from "./PicksColumn";
 import { SeriesBar } from "./SeriesBar";
 import { ReserveTracker } from "./ReserveTracker";
 import { TurnTimer } from "./TurnTimer";
@@ -71,15 +72,56 @@ export function DraftBoard({ data }: { data: ChampionData }) {
         onClear={bans.clear}
       />
 
-      {/* Turn indicator */}
+      <BansRow
+        version={version}
+        championsById={championsById}
+        getAssignment={draft.getAssignment}
+        isActiveSlot={draft.isActiveSlot}
+      />
+
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,2.1fr)_minmax(0,1fr)]">
+        <PicksColumn
+          team="blue"
+          version={version}
+          championsById={championsById}
+          getAssignment={draft.getAssignment}
+          isActiveSlot={draft.isActiveSlot}
+          align="left"
+        />
+
+        <div className="order-first lg:order-none">
+          <ChampionGrid
+            champions={champions}
+            version={version}
+            isUnavailable={draft.isUnavailable}
+            isFearlessLocked={(id) => draft.fearlessLocked.has(id)}
+            disabled={draft.isComplete}
+            onSelect={draft.select}
+            highlighted={bans.banTargets}
+          />
+        </div>
+
+        <PicksColumn
+          team="red"
+          version={version}
+          championsById={championsById}
+          getAssignment={draft.getAssignment}
+          isActiveSlot={draft.isActiveSlot}
+          align="right"
+        />
+      </div>
+
+      {/* Bottom control panel: turn, timer and confirm/lock */}
       <div
-        className={`flex items-center justify-between gap-4 rounded-md border px-4 py-3 transition-colors ${
+        className={`flex flex-wrap items-center justify-between gap-4 rounded-md border px-4 py-3 transition-colors duration-200 ${
           draft.isComplete
             ? "border-gold/50 bg-gold/10"
             : current?.team === "blue"
               ? "border-blue-side/50 bg-blue-side/10"
               : "border-red-side/50 bg-red-side/10"
         }`}
+        role="status"
+        aria-live="polite"
       >
         <div className="flex items-center gap-3">
           {!draft.isComplete && (
@@ -87,6 +129,7 @@ export function DraftBoard({ data }: { data: ChampionData }) {
               className={`animate-glow h-3 w-3 rounded-full ${
                 current?.team === "blue" ? "bg-blue-side" : "bg-red-side"
               }`}
+              aria-hidden="true"
             />
           )}
           <p className="font-display text-base font-semibold tracking-wide">
@@ -129,38 +172,6 @@ export function DraftBoard({ data }: { data: ChampionData }) {
             </button>
           )}
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,2.1fr)_minmax(0,1fr)]">
-        <TeamColumn
-          team="blue"
-          version={version}
-          championsById={championsById}
-          getAssignment={draft.getAssignment}
-          isActiveSlot={draft.isActiveSlot}
-          align="left"
-        />
-
-        <div className="order-first lg:order-none">
-          <ChampionGrid
-            champions={champions}
-            version={version}
-            isUnavailable={draft.isUnavailable}
-            isFearlessLocked={(id) => draft.fearlessLocked.has(id)}
-            disabled={draft.isComplete}
-            onSelect={draft.select}
-            highlighted={bans.banTargets}
-          />
-        </div>
-
-        <TeamColumn
-          team="red"
-          version={version}
-          championsById={championsById}
-          getAssignment={draft.getAssignment}
-          isActiveSlot={draft.isActiveSlot}
-          align="right"
-        />
       </div>
 
       <footer className="border-line text-ink-dim flex flex-wrap items-center justify-between gap-3 border-t pt-4 text-xs">
